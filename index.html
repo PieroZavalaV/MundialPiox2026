@@ -100,18 +100,105 @@ tr:last-child td{border-bottom:none}
   <button class="tab" onclick="sw('apuestas',this)">🎯 Apuestas Recomendadas</button>
 </div>
 
-<!-- RESULTADOS -->
 <div id="resultados" class="sec on">
-  <div class="revelation">⚠️ <b>Hallazgo clave Jornada 1:</b> Chequia perdió 1-2 ante Corea del Sur. Era uno de los favoritos del Grupo A en mi análisis previo — Schick marcó 0 goles. México ganó pero con solo 2-0 ante Sudáfrica (que terminó con 9 jugadores por 2 rojas). El rendimiento de El Tri fue correcto pero no brillante.</div>
-  
-  <!-- Contenedor dinámico de partidos inyectados por la API -->
-  <div id="contenedor-partidos-api">
-      <p style="font-size:12px; color:#666;">Buscando marcadores actualizados de ESPN...</p>
+
+  <div class="revelation">
+    ⚠️ <b>Hallazgo clave Jornada 1:</b> Chequia perdió 1-2 ante Corea del Sur. Era uno de los favoritos del Grupo A en mi análisis previo — Schick marcó 0 goles. México ganó pero con solo 2-0 ante Sudáfrica (que terminó con 9 jugadores por 2 rojas). El rendimiento de El Tri fue correcto pero no brillante.
+  </div>
+
+  <div id="contenedor-partidos-api"></div>
+
+  <div class="partidos-estaticos">
+    
+    <div class="grp-hdr" style="margin-top:0">Grupo A — JORNADA 1 COMPLETADA</div>
+
+    <div class="res-card confirmed">
+      <div class="res-head"><span class="res-title">Grupo A · Azteca, México City · 11 Jun</span><span class="res-tag tag-final">FINAL ✓</span></div>
+      <div class="res-score">
+        <span class="team-name">🇲🇽 México</span>
+        <span class="score-box">2 – 0</span>
+        <span class="team-name" style="text-align:right">🇿🇦 Sudáfrica</span>
+      </div>
+      <div class="res-note">⚽ Julián Quiñones (min. 9) — PRIMER GOL DEL MUNDIAL 2026. Raúl Jiménez (2do tiempo). Sudáfrica acabó con 9 jugadores (2 rojas: Sithole + Zwane). México 60% posesión. Sudáfrica = 0 grandes chances. <br><b>Vs mi predicción:</b> Acerté el resultado 2-0 ✅. El contexto de las rojas infla la superioridad de México.</div>
+    </div>
+
+    <div class="res-card confirmed">
+      <div class="res-head"><span class="res-title">Grupo A · Estadio Akron, Guadalajara · 11 Jun</span><span class="res-tag tag-final">FINAL ✓ SORPRESA</span></div>
+      <div class="res-score">
+        <span class="team-name">🇨🇿 Chequia</span>
+        <span class="score-box">1 – 2</span>
+        <span class="team-name" style="text-align:right">🇰🇷 Corea del Sur</span>
+      </div>
+      <div class="res-note">⚽ Krejčí (header, saque de banda Coufal) · Lee Kang-in (asistencia) → Hwang In-beom 1-1 · Oh (suplente) de cabeza 1-2. Chequia tuvo doble parada clave de Kovář. Koubek = entrenador más viejo del Mundial (74 años). <br><b>Vs mi predicción:</b> Predije empate 1-1. Corea fue más y lo ganó. Chequia con Schick neutro. ⚠️ Señal de alarma para Chequia.</div>
+    </div>
+
+    <div class="grp-hdr">Próximos partidos confirmados — 13-16 Jun</div>
+
+    <div class="res-card upcoming">
+      <div class="res-head"><span class="res-title">Grupo B · San Francisco Bay · 13 Jun 15:00 ET</span><span class="res-tag tag-prox">Próximo</span></div>
+      <div class="res-score">
+        <span class="team-name">🇶🇦 Qatar</span>
+        <span class="score-box">vs</span>
+        <span class="team-name" style="text-align:right">🇨🇭 Suiza</span>
+      </div>
+      <div class="res-note">Suiza favorita clara. Qatar sin nivel. Pronóstico: 0-3 Suiza (91% conf.)</div>
+    </div>
+
+    <div class="res-card upcoming">
+      <div class="res-head"><span class="res-title">Grupo C · MetLife NJ · 13 Jun 18:00 ET</span><span class="res-tag tag-prox">Próximo</span></div>
+      <div class="res-score">
+        <span class="team-name">🇧🇷 Brasil</span>
+        <span class="score-box">vs</span>
+        <span class="team-name" style="text-align:right">🇲🇦 Marruecos</span>
+      </div>
+      <div class="res-note">El partido más esperado de la jornada 1. Vinicius vs Hakimi. Pronóstico: 2-1 Brasil (71% conf.)</div>
+    </div>
+
+    <div class="res-card upcoming">
+      <div class="res-head"><span class="res-title">Grupo C · Boston · 13 Jun 21:00 ET</span><span class="res-tag tag-prox">Próximo</span></div>
+      <div class="res-score">
+        <span class="team-name">🇭🇹 Haití</span>
+        <span class="score-box">vs</span>
+        <span class="team-name" style="text-align:right">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escocia</span>
+      </div>
+      <div class="res-note">Escocia ampliamente superior. Pronóstico: 0-3 Escocia (90% conf.)</div>
+    </div>
+
+    <div class="res-card upcoming">
+      <div class="res-head"><span class="res-title">Grupo D · Vancouver · 14 Jun</span><span class="res-tag tag-prox">Próximo</span></div>
+      <div class="res-score">
+        <span class="team-name">🇦🇺 Australia</span>
+        <span class="score-box">vs</span>
+        <span class="team-name" style="text-align:right">🇹🇷 Turquía</span>
+      </div>
+      <div class="res-note">Turquía favorita por Yıldız. Pronóstico: 1-2 Turquía (66% conf.)</div>
+    </div>
+
+    <div class="res-card upcoming">
+      <div class="res-head"><span class="res-title">Grupo E · Toronto · 14 Jun</span><span class="res-tag tag-prox">Próximo</span></div>
+      <div class="res-score">
+        <span class="team-name">🇩🇪 Alemania</span>
+        <span class="score-box">vs</span>
+        <span class="team-name" style="text-align:right">🇨🇮 C. de Marfil</span>
+      </div>
+      <div class="res-note">Wirtz-Musiala-Havertz. Pronóstico: 3-1 Alemania (83% conf.)</div>
+    </div>
+
+    <div class="res-card upcoming">
+      <div class="res-head"><span class="res-title">Grupo H · Atlanta · 16 Jun</span><span class="res-tag tag-prox">Próximo</span></div>
+      <div class="res-score">
+        <span class="team-name">🇪🇸 España</span>
+        <span class="score-box">vs</span>
+        <span class="team-name" style="text-align:right">🇨🇻 Cabo Verde</span>
+      </div>
+      <div class="res-note">Yamal confirmado disponible (molestia leve resuelta). 4-0 España (97% conf.)</div>
+    </div>
+
   </div>
 </div>
 
-<!-- TABLAS ACTUALIZADAS -->
 <div id="grupos" class="sec">
+
 <div class="grp-block">
 <div class="grp-hdr">Grupo A — Tras Jornada 1 <span class="badge bf">México lidera</span><span class="badge br">⚠️ Chequia sorprendida</span></div>
 <table>
@@ -161,18 +248,18 @@ tr:last-child td{border-bottom:none}
 <tr><td>H</td><td>🇪🇸 España vs 🇨🇻 Cabo Verde</td><td>16 Jun</td><td>4-0 España (97%)</td></tr>
 <tr><td>H</td><td>🇺🇾 Uruguay vs 🇸🇦 A. Saudita</td><td>16 Jun</td><td>2-0 Uruguay (83%)</td></tr>
 <tr><td>I</td><td>🇫🇷 Francia vs 🇸🇳 Senegal</td><td>16 Jun</td><td>2-1 Francia (74%)</td></tr>
-<tr><td>I</td><td>🇮raq vs 🇳🇴 Noruega</td><td>16 Jun</td><td>0-3 Noruega (91%)</td></tr>
+<tr><td>I</td><td>🇮🇶 Irak vs 🇳🇴 Noruega</td><td>16 Jun</td><td>0-3 Noruega (91%)</td></tr>
 <tr><td>J</td><td>🇦🇷 Argentina vs 🇩🇿 Argelia</td><td>15 Jun</td><td>2-0 Argentina (85%)</td></tr>
 <tr><td>K</td><td>🇵🇹 Portugal vs 🇨🇩 Congo DR</td><td>17 Jun</td><td>4-0 Portugal (97%)</td></tr>
 <tr><td>K</td><td>🇨🇴 Colombia vs 🇺🇿 Uzbekistán</td><td>17 Jun</td><td>3-0 Colombia (93%)</td></tr>
 <tr><td>L</td><td>🇬🇧 Inglaterra vs 🇭🇷 Croacia</td><td>17 Jun</td><td>2-0 Inglaterra (79%)</td></tr>
-<tr><td>L</td><td>🇬 Ghana vs 🇵🇦 Panamá</td><td>17 Jun</td><td>1-1 Empate (57%)</td></tr>
+<tr><td>L</td><td>🇬🇭 Ghana vs 🇵🇦 Panamá</td><td>17 Jun</td><td>1-1 Empate (57%)</td></tr>
 </tbody></table>
 </div>
 </div>
 
-<!-- TENDENCIAS -->
 <div id="tendencias" class="sec">
+
 <div class="tend-card">
   <div class="tend-title">📈 Tendencia 1 — La norma del local: los 3 co-anfitriones rinden bajo presión</div>
   <div class="tend-body">México ganó 2-0 pero con la ayuda de 2 expulsiones rivales. Su juego no fue brillante. <span class="trend-neu">Canadá está recibiendo el primer gol en casa ante Bosnia</span>, lo que revela que el "efecto local" no elimina el factor sorpresa. EE.UU. esta noche ante Paraguay tendrá el mismo desafío. <b>Conclusión:</b> Apostar a los co-anfitriones con handicap bajo es más seguro que apostar a goleadas. Los 3 equipos CONCACAF mostrarán flojedad ofensiva en grupos.</div>
@@ -202,10 +289,11 @@ tr:last-child td{border-bottom:none}
   <div class="tend-title">🚨 Tendencia 6 — Factor tarjetas rojas en la jornada inaugural</div>
   <div class="tend-body">3 rojas en México-Sudáfrica (primera vez en un partido del Mundial). Esto distorsiona los datos de rendimiento de México: su dominio fue amplificado por jugar 60 minutos contra 10-9 jugadores. <span class="trend-neu">No podemos concluir que México sea un equipo dominante</span> hasta ver cómo rinde en igualdad numérica. El partido vs Corea del Sur el 18 Jun será la prueba real de su nivel.</div>
 </div>
+
 </div>
 
-<!-- APUESTAS -->
 <div id="apuestas" class="sec">
+
 <div class="disclaimer"><span class="warn">⚠️ DISCLAIMER IMPORTANTE:</span> Las siguientes recomendaciones son análisis estadístico-deportivo con fines informativos. No constituyen asesoramiento financiero. Las apuestas deportivas conllevan riesgo real de pérdida. Juega responsablemente y dentro de tus posibilidades. Solo para mayores de 18 años donde sea legal.</div>
 
 <div class="bet-card">
@@ -256,7 +344,7 @@ tr:last-child td{border-bottom:none}
     <span class="bet-tag t-alta">Confianza MUY ALTA</span>
   </div>
   <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:88%"></div></div><span class="conf-pct">88%</span></div>
-  <div class="bet-reason"><b>Fundamento:</b> Haaland con 16 goles en 8 partidos de clasificación UEFA (2.0 goles/partido de promedio). irak = 63° ranking FIFA, 0 jugadores en las top 5 ligas europeas. Es el primer Mundial de Haaland — llega con motivation histórica y sin margen para el error. La cuota de "Noruega gana + Haaland anota" está infravalorada porque el mercado teme la presión del debut. Estadísticamente, los máximos goleadores de clasificación convierten en el debut mundialista el 74% de las veces (Mbappe, Kane, Lewandowski en sus primeros partidos). Esta es la apuesta con mejor relación riesgo/retorno del torneo.</div>
+  <div class="bet-reason"><b>Fundamento:</b> Haaland con 16 goles en 8 partidos de clasificación UEFA (2.0 goles/partido de promedio). irak = 63° ranking FIFA, 0 jugadores en las top 5 ligas europeas. Es el primer Mundial de Haaland — llega con motivación histórica y sin margen para el error. La cuota de "Noruega gana + Haaland anota" está infravalorada porque el mercado teme la presión del debut. Estadísticamente, los máximos goleadores de clasificación convierten en el debut mundialista el 74% de las veces (Mbappe, Kane, Lewandowski en sus primeros partidos). Esta es la apuesta con mejor relación riesgo/retorno del torneo.</div>
 </div>
 
 <div class="bet-card">
@@ -328,7 +416,7 @@ tr:last-child td{border-bottom:none}
 </div>
 
 <script>
-// Sistema de navegación de pestañas original
+// Sistema original para cambiar de pestañas en la web
 function sw(id,btn){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
@@ -336,23 +424,21 @@ function sw(id,btn){
   btn.classList.add('active');
 }
 
-// === INTEGRACIÓN CON PROXY PARA EVITAR BLOQUEO DE ESPN ===
-// Usamos allorigins para saltarnos el CORS que bloquea GitHub Pages
+// Configuración de la API de ESPN con la URL del Proxy de Seguridad
 const urlBase = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const espnUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlBase)}`;
 
 async function cargarMarcadoresESPN() {
     try {
         const response = await fetch(espnUrl);
-        if (!response.ok) throw new Error('Error en la red');
+        if (!response.ok) throw new Error('Error en la petición de red');
         
         const rawData = await response.json();
-        // Allorigins devuelve la respuesta real dentro de una propiedad 'contents' como string
         const data = JSON.parse(rawData.contents);
         const matches = data.events || [];
         
         if(matches.length === 0) {
-            document.getElementById('contenedor-partidos-api').innerHTML = '<p style="font-size:12px; color:#666; padding: 10px 0;">No hay partidos programados para hoy en ESPN.</p>';
+            document.getElementById('contenedor-partidos-api').innerHTML = '';
             return;
         }
 
@@ -361,9 +447,16 @@ async function cargarMarcadoresESPN() {
         matches.forEach(match => {
             if (!match.competitions || !match.competitions[0]) return;
             
-            const location = match.venue ? match.venue.fullName : 'Estadio Mundialista';
-            const dateStr = match.date ? new Date(match.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : '';
-            const headingText = `${match.league?.name || 'Mundial 2026'} · ${location} · ${dateStr}`;
+            // CORRECCIÓN FIJA PARA EL UNDEFINED: Validamos paso a paso si existe el estadio
+            let location = 'Estadio Mundialista';
+            if (match.competitions[0].venue && match.competitions[0].venue.fullName) {
+                location = match.competitions[0].venue.fullName;
+            } else if (match.competitions[0].venue && match.competitions[0].venue.address) {
+                location = match.competitions[0].venue.address.city || 'Estadio Mundialista';
+            }
+            
+            const dateStr = match.date ? new Date(match.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : 'Hoy';
+            const headingText = `Mundial 2026 · ${location} · ${dateStr}`;
             
             const statusType = match.status?.type?.state || 'pre';
             const statusDetail = match.status?.type?.detail || 'Programado';
@@ -392,15 +485,15 @@ async function cargarMarcadoresESPN() {
             const score2 = statusType === 'pre' ? '' : (team2.score || '0');
             const scoreDisplay = statusType === 'pre' ? 'vs' : `${score1} – ${score2}`;
 
-            let noteText = "Análisis en tiempo real disponible durante el partido.";
+            let noteText = "Análisis en tiempo real disponible durante el encuentro.";
             if (match.competitions[0].headlines && match.competitions[0].headlines.length > 0) {
                 noteText = match.competitions[0].headlines[0].description;
             }
 
             htmlContent += `
-                <div class="res-card ${cardClass}">
+                <div class="res-card ${cardClass}" style="margin-bottom: 15px; border-left: 4px solid #ff4d4d;">
                   <div class="res-head">
-                      <span class="res-title">${headingText}</span>
+                      <span class="res-title" style="color: #666; font-weight: 500;">${headingText}</span>
                       <span class="res-tag ${tagClass}">${tagText}</span>
                   </div>
                   <div class="res-score">
@@ -408,7 +501,7 @@ async function cargarMarcadoresESPN() {
                     <span class="score-box">${scoreDisplay}</span>
                     <span class="team-name" style="text-align:right">${team2.team?.displayName || 'Por definir'}</span>
                   </div>
-                  <div class="res-note">${noteText}</div>
+                  <div class="res-note" style="font-style: italic; color:#555;">📢 ${noteText}</div>
                 </div>
             `;
         });
@@ -416,16 +509,16 @@ async function cargarMarcadoresESPN() {
         document.getElementById('contenedor-partidos-api').innerHTML = htmlContent;
 
     } catch (error) {
-        console.error("Error con Proxy/ESPN:", error);
-        document.getElementById('contenedor-partidos-api').innerHTML = '<p style="font-size:12px; color:#E24B4A; padding: 10px 0;">Error de conexión. Reintentando puente alterno...</p>';
+        console.error("Error cargando la API:", error);
     }
 }
 
-// Carga inicial
+// Ejecutar la función automáticamente al abrir la página
 cargarMarcadoresESPN();
 
-// Actualización automática cada 45 segundos para no saturar el proxy
+// Refrescar los partidos en vivo cada 45 segundos de manera silenciosa
 setInterval(cargarMarcadoresESPN, 45000);
 </script>
+
 </body>
 </html>
