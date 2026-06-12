@@ -433,6 +433,8 @@ tr:last-child td{border-bottom:none}
 </div>
 
 <script>
+// ================= JAVASCRIPT CORREGIDO =================
+
 // Sistema original para cambiar de pestañas en la web
 function sw(id,btn){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
@@ -441,8 +443,8 @@ function sw(id,btn){
   btn.classList.add('active');
 }
 
-// Configuración de la API de ESPN con la URL del Proxy de Seguridad
-const urlBase = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+// Endpoint global de fútbol para capturar partidos en vivo activos hoy
+const urlBase = 'https://site.api.espn.com/apis/site/v2/sports/soccer/scoreboard';
 const espnUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlBase)}`;
 
 async function cargarMarcadoresESPN() {
@@ -455,7 +457,10 @@ async function cargarMarcadoresESPN() {
         const matches = data.events || [];
         
         if(matches.length === 0) {
-            document.getElementById('contenedor-partidos-api').innerHTML = '';
+            document.getElementById('contenedor-partidos-api').innerHTML = `
+                <div class="res-card upcoming" style="border-left: 3px solid #ccc; padding: 12px;">
+                  <div class="res-note">No se detectaron partidos internacionales activos en este instante en el feed general.</div>
+                </div>`;
             return;
         }
 
@@ -464,16 +469,13 @@ async function cargarMarcadoresESPN() {
         matches.forEach(match => {
             if (!match.competitions || !match.competitions[0]) return;
             
-            // CORRECCIÓN FIJA PARA EL UNDEFINED: Validamos paso a paso si existe el estadio
             let location = 'Estadio Mundialista';
             if (match.competitions[0].venue && match.competitions[0].venue.fullName) {
                 location = match.competitions[0].venue.fullName;
-            } else if (match.competitions[0].venue && match.competitions[0].venue.address) {
-                location = match.competitions[0].venue.address.city || 'Estadio Mundialista';
             }
             
             const dateStr = match.date ? new Date(match.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : 'Hoy';
-            const headingText = `Mundial 2026 · ${location} · ${dateStr}`;
+            const headingText = `${match.league?.name || 'Fútbol Internacional'} · ${location}`;
             
             const statusType = match.status?.type?.state || 'pre';
             const statusDetail = match.status?.type?.detail || 'Programado';
@@ -485,7 +487,7 @@ async function cargarMarcadoresESPN() {
             if(statusType === 'in') {
                 cardClass = 'live';
                 tagClass = 'tag-live';
-                tagText = 'EN JUEGO 🔴';
+                tagText = `EN VIVO • ${statusDetail}`;
             } else if(statusType === 'post') {
                 cardClass = 'confirmed';
                 tagClass = 'tag-final';
@@ -502,23 +504,23 @@ async function cargarMarcadoresESPN() {
             const score2 = statusType === 'pre' ? '' : (team2.score || '0');
             const scoreDisplay = statusType === 'pre' ? 'vs' : `${score1} – ${score2}`;
 
-            let noteText = "Análisis en tiempo real disponible durante el encuentro.";
+            let noteText = "Sigue las estadísticas en directo.";
             if (match.competitions[0].headlines && match.competitions[0].headlines.length > 0) {
                 noteText = match.competitions[0].headlines[0].description;
             }
 
             htmlContent += `
-                <div class="res-card ${cardClass}" style="margin-bottom: 15px; border-left: 4px solid #ff4d4d;">
+                <div class="res-card ${cardClass}" style="margin-bottom: 15px;">
                   <div class="res-head">
-                      <span class="res-title" style="color: #666; font-weight: 500;">${headingText}</span>
+                      <span class="res-title" style="font-weight: 600; color: var(--color-text-secondary);">${headingText}</span>
                       <span class="res-tag ${tagClass}">${tagText}</span>
                   </div>
                   <div class="res-score">
                     <span class="team-name">${team1.team?.displayName || 'Por definir'}</span>
-                    <span class="score-box">${scoreDisplay}</span>
+                    <span class="score-box" style="font-size:20px; font-weight:bold;">${scoreDisplay}</span>
                     <span class="team-name" style="text-align:right">${team2.team?.displayName || 'Por definir'}</span>
                   </div>
-                  <div class="res-note" style="font-style: italic; color:#555;">📢 ${noteText}</div>
+                  <div class="res-note" style="font-style: italic; color: var(--color-text-secondary);">📢 ${noteText}</div>
                 </div>
             `;
         });
@@ -527,14 +529,13 @@ async function cargarMarcadoresESPN() {
 
     } catch (error) {
         console.error("Error cargando la API:", error);
+        document.getElementById('contenedor-partidos-api').innerHTML = '<div style="font-size:11px; color:red; padding:10px;">Error de sincronización en vivo. Reintentando...</div>';
     }
 }
 
-// Ejecutar la función automáticamente al abrir la página
+// Ejecución inicial y refresco automático cada 30 segundos
 cargarMarcadoresESPN();
-
-// Refrescar los partidos en vivo cada 45 segundos de manera silenciosa
-setInterval(cargarMarcadoresESPN, 45000);
+setInterval(cargarMarcadoresESPN, 30000);
 </script>
 
 </body>
