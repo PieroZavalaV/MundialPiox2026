@@ -21,13 +21,13 @@ h1{font-size:21px;font-weight:500;color:var(--color-text-primary, #111);margin-b
 /* RESULTADOS */
 .res-card{background:var(--color-background-secondary, #f9f9f9);border-radius:var(--border-radius-lg, 8px);padding:12px 14px;margin-bottom:10px;border-left:3px solid transparent}
 .res-card.confirmed{border-left-color:#1D9E75}
-.res-card.live{border-left-color:#E24B4A}
+.res-card.live{border-left-color:#E24B4A; background:#FFF5F5;}
 .res-card.upcoming{border-left-color:#B5D4F4}
 .res-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .res-title{font-size:12px;font-weight:500;color:var(--color-text-secondary, #555)}
 .res-tag{font-size:10px;padding:2px 7px;border-radius:var(--border-radius-md, 4px)}
 .tag-final{background:#EAF3DE;color:#27500A}
-.tag-live{background:#FCEBEB;color:#791F1F}
+.tag-live{background:#E24B4A;color:white;font-weight:bold;animation:pulse 1.5s infinite}
 .tag-prox{background:#E6F1FB;color:#0C447C}
 .res-score{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .team-name{font-size:13px;font-weight:500;flex:1}
@@ -84,20 +84,16 @@ tr:last-child td{border-bottom:none}
 .note-box{background:var(--color-background-secondary, #f9f9f9);border-radius:var(--border-radius-lg, 8px);padding:10px 14px;margin-top:8px;margin-bottom:4px}
 .note-box h3{font-size:12.5px;font-weight:500;margin-bottom:4px}
 .note-box p{font-size:11.5px;color:var(--color-text-secondary, #666);line-height:1.6}
-/* --- TUNEO DE TARJETAS: TRANSICIONES Y EFECTOS --- */
-/* 1. Le decimos a las tarjetas que se preparen para animarse suavemente */
+
+/* === INYECCIÓN DEL REGALITO: HOVER EFFECTS TUNEADOS === */
 .res-card, .bet-card, .tend-card {
     transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
-
-/* 2. El efecto cuando pasas el mouse por encima (Hover) */
 .res-card:hover, .bet-card:hover, .tend-card:hover {
-    transform: translateY(-4px); /* Eleva la tarjeta sutilmente hacia arriba */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); /* Le crea una sombra suave abajo para dar efecto de flotado */
-    cursor: pointer; /* Cambia el cursor a la manito para indicar que es interactivo */
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
 }
-
-/* 3. Un extra para las tarjetas en vivo: si pasas el mouse, el color resalta un toque más */
 .res-card.live:hover {
     background: #FFF0F0;
 }
@@ -108,7 +104,7 @@ tr:last-child td{border-bottom:none}
 <div class="wrap">
 <h1>Mundial FIFA 2026 — Análisis Actualizado + Apuestas</h1>
 <div class="sub">Resultados reales confirmados · Tendencias emergentes · Pronósticos actualizados · Apuestas con fundamento estadístico</div>
-<div class="live-badge"><span class="dot"></span>ACTUALIZADO EN VIVO · API ESPN</div>
+<div class="live-badge"><span class="dot"></span>ACTUALIZADO EN VIVO · API ESPN GLOBAL</div>
 
 <div class="tabs">
   <button class="tab active" onclick="sw('resultados',this)">Resultados Jornada 1-2</button>
@@ -117,14 +113,20 @@ tr:last-child td{border-bottom:none}
   <button class="tab" onclick="sw('apuestas',this)">🎯 Apuestas Recomendadas</button>
 </div>
 
+<!-- ================= RESULTADOS ================= -->
 <div id="resultados" class="sec on">
 
+  <!-- Hallazgo Clave (Fijo) -->
   <div class="revelation">
-    ⚠️ <b>Hallazgo clave Jornada 1:</b> Chequia perdió 1-2 ante Corea del Sur. Era uno de los favoritos del Grupo A en mi análisis previo — Schick marcó 0 goles. México ganó pero con solo 2-0 ante Sudáfrica (que terminó con 9 jugadores por 2 rojas). El rendimiento de El Tri fue correcto pero no brillante.
+    ⚠️ <b>Hallazgo clave Jornada 1:</b> Chequia perdió 1-2 ante Corea del Sur. Era uno de los favoritos del Grupo A en mi análisis previo — Schick marcó 0 goles. México ganó pero con solo 2-0 ante Sudáfrica (que terminó con 9 jugadores por 2 rojas). El rendimiento de El Tri fue correcto pero no brillante.[cite: 1]
   </div>
 
-  <div id="contenedor-partidos-api"></div>
+  <!-- CONTENEDOR DONDE SE INYECTAN LOS PARTIDOS EN VIVO -->
+  <div id="contenedor-partidos-api">
+      <div style="font-size:12px; color:#666; padding:10px; text-align:center;">Sincronizando marcadores en vivo...</div>
+  </div>
 
+  <!-- PARTIDOS ESTÁTICOS / MANUALES -->
   <div class="partidos-estaticos">
     
     <div class="grp-hdr" style="margin-top:0">Grupo A — JORNADA 1 COMPLETADA</div>
@@ -180,44 +182,13 @@ tr:last-child td{border-bottom:none}
       </div>
       <div class="res-note">Escocia ampliamente superior. Pronóstico: 0-3 Escocia (90% conf.)</div>
     </div>
-
-    <div class="res-card upcoming">
-      <div class="res-head"><span class="res-title">Grupo D · Vancouver · 14 Jun</span><span class="res-tag tag-prox">Próximo</span></div>
-      <div class="res-score">
-        <span class="team-name">🇦🇺 Australia</span>
-        <span class="score-box">vs</span>
-        <span class="team-name" style="text-align:right">🇹🇷 Turquía</span>
-      </div>
-      <div class="res-note">Turquía favorita por Yıldız. Pronóstico: 1-2 Turquía (66% conf.)</div>
-    </div>
-
-    <div class="res-card upcoming">
-      <div class="res-head"><span class="res-title">Grupo E · Toronto · 14 Jun</span><span class="res-tag tag-prox">Próximo</span></div>
-      <div class="res-score">
-        <span class="team-name">🇩🇪 Alemania</span>
-        <span class="score-box">vs</span>
-        <span class="team-name" style="text-align:right">🇨🇮 C. de Marfil</span>
-      </div>
-      <div class="res-note">Wirtz-Musiala-Havertz. Pronóstico: 3-1 Alemania (83% conf.)</div>
-    </div>
-
-    <div class="res-card upcoming">
-      <div class="res-head"><span class="res-title">Grupo H · Atlanta · 16 Jun</span><span class="res-tag tag-prox">Próximo</span></div>
-      <div class="res-score">
-        <span class="team-name">🇪🇸 España</span>
-        <span class="score-box">vs</span>
-        <span class="team-name" style="text-align:right">🇨🇻 Cabo Verde</span>
-      </div>
-      <div class="res-note">Yamal confirmado disponible (molestia leve resuelta). 4-0 España (97% conf.)</div>
-    </div>
-
   </div>
 </div>
 
+<!-- ================= TABLAS ACTUALIZADAS ================= -->
 <div id="grupos" class="sec">
-
 <div class="grp-block">
-<div class="grp-hdr">Grupo A — Tras Jornada 1 <span class="badge bf">México lidera</span><span class="badge br">⚠️ Chequia sorprendida</span></div>
+<div class="grp-hdr">Grupo A — Tras Jornada 1 <span class="badge bf">México lidera</span></div>
 <table>
 <thead><tr><th style="width:5%">#</th><th style="width:35%">Selección</th><th style="width:10%">PJ</th><th style="width:10%">G</th><th style="width:10%">E</th><th style="width:10%">P</th><th style="width:10%">DG</th><th style="width:10%">Pts</th></tr></thead>
 <tbody>
@@ -226,216 +197,32 @@ tr:last-child td{border-bottom:none}
 <tr><td><span class="pos">3</span></td><td>🇨🇿 Chequia</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-1</td><td class="pts">0</td></tr>
 <tr><td><span class="pos">4</span></td><td>🇿🇦 Sudáfrica</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-2</td><td class="pts">0</td></tr>
 </tbody></table>
-<div class="note-box">
-  <h3>Análisis actualizado Grupo A</h3>
-  <p>La derrota de Chequia cambia el panorama. México necesita al menos un empate ante Corea del Sur el 18 Jun para asegurar el 1er puesto. Si Chequia pierde ante Sudáfrica el 18 Jun, quedaría prácticamente eliminada. El partido México-Corea del Sur el 18 Jun es ahora el más importante del grupo. <span class="trend-up">México 1ro proyectado (92%).</span> <span class="trend-up">Corea 2do (78%).</span> <span class="trend-down">Chequia en crisis (50% de sobrevivir).</span></p>
 </div>
 </div>
 
-<div class="grp-block">
-<div class="grp-hdr">Grupo B — Jornada 2 iniciando <span class="badge ba">⚠️ Bosnia marcó primero vs Canadá</span></div>
-<table>
-<thead><tr><th style="width:5%">#</th><th style="width:35%">Selección</th><th style="width:10%">PJ</th><th style="width:10%">G</th><th style="width:10%">E</th><th style="width:10%">P</th><th style="width:10%">DG</th><th style="width:10%">Pts</th></tr></thead>
-<tbody>
-<tr><td><span class="pos">?</span></td><td>🇨🇦 Canadá</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="pts">En juego</td></tr>
-<tr><td><span class="pos">?</span></td><td>🇧🇦 Bosnia</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="pts">En juego</td></tr>
-<tr><td><span class="pos">—</span></td><td>🇨🇭 Suiza</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="pts">0</td></tr>
-<tr><td><span class="pos">—</span></td><td>🇶🇦 Qatar</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="pts">0</td></tr>
-</tbody></table>
-<div class="note-box">
-  <h3>Análisis actualizado Grupo B</h3>
-  <p>El gol temprano de Bosnia en Toronto es una señal de alarma. Davies arrancó desde el banquillo (se preserva para partido clave). Canadá necesita remontar para mantener su imagen de favorito. Si Bosnia gana, el grupo se pone interesante: <span class="trend-neu">Suiza seguiría siendo 1ra (Suiza vs Qatar el 13 Jun = 3-0 seguro)</span>, pero la batalla por el 2do puesto sería Canadá-Bosnia con Canadá en desventaja psicológica.</p>
-</div>
-</div>
-
-<div class="grp-block">
-<div class="grp-hdr">Grupos C-L — Jornada 1 pendiente (13-16 Jun)</div>
-<table>
-<thead><tr><th style="width:5%">Grp</th><th style="width:45%">Partido</th><th style="width:20%">Fecha</th><th style="width:30%">Pronóstico</th></tr></thead>
-<tbody>
-<tr><td>C</td><td>🇧🇷 Brasil vs 🇲🇦 Marruecos</td><td>13 Jun</td><td>2-1 Brasil (71%)</td></tr>
-<tr><td>C</td><td>🇭🇹 Haití vs 🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escocia</td><td>13 Jun</td><td>0-3 Escocia (90%)</td></tr>
-<tr><td>D</td><td>🇦🇺 Australia vs 🇹🇷 Turquía</td><td>14 Jun</td><td>1-2 Turquía (66%)</td></tr>
-<tr><td>E</td><td>🇩🇪 Alemania vs 🇨🇮 C. de Marfil</td><td>14 Jun</td><td>3-1 Alemania (83%)</td></tr>
-<tr><td>E</td><td>🇪🇨 Ecuador vs 🇨🇼 Curazao</td><td>14 Jun</td><td>4-0 Ecuador (97%)</td></tr>
-<tr><td>F</td><td>🇳🇱 Países Bajos vs 🇯🇵 Japón</td><td>14 Jun</td><td>2-1 PBajos (71%)</td></tr>
-<tr><td>F</td><td>🇸🇪 Suecia vs 🇹🇳 Túnez</td><td>14 Jun</td><td>2-0 Suecia (83%)</td></tr>
-<tr><td>G</td><td>🇧🇪 Bélgica vs 🇪🇬 Egipto</td><td>15 Jun</td><td>2-0 Bélgica (82%)</td></tr>
-<tr><td>G</td><td>🇮🇷 Irán vs 🇳🇿 N. Zelanda</td><td>15 Jun</td><td>2-0 Irán (84%)</td></tr>
-<tr><td>H</td><td>🇪🇸 España vs 🇨🇻 Cabo Verde</td><td>16 Jun</td><td>4-0 España (97%)</td></tr>
-<tr><td>H</td><td>🇺🇾 Uruguay vs 🇸🇦 A. Saudita</td><td>16 Jun</td><td>2-0 Uruguay (83%)</td></tr>
-<tr><td>I</td><td>🇫🇷 Francia vs 🇸🇳 Senegal</td><td>16 Jun</td><td>2-1 Francia (74%)</td></tr>
-<tr><td>I</td><td>🇮🇶 Irak vs 🇳🇴 Noruega</td><td>16 Jun</td><td>0-3 Noruega (91%)</td></tr>
-<tr><td>J</td><td>🇦🇷 Argentina vs 🇩🇿 Argelia</td><td>15 Jun</td><td>2-0 Argentina (85%)</td></tr>
-<tr><td>K</td><td>🇵🇹 Portugal vs 🇨🇩 Congo DR</td><td>17 Jun</td><td>4-0 Portugal (97%)</td></tr>
-<tr><td>K</td><td>🇨🇴 Colombia vs 🇺🇿 Uzbekistán</td><td>17 Jun</td><td>3-0 Colombia (93%)</td></tr>
-<tr><td>L</td><td>🇬🇧 Inglaterra vs 🇭🇷 Croacia</td><td>17 Jun</td><td>2-0 Inglaterra (79%)</td></tr>
-<tr><td>L</td><td>🇬🇭 Ghana vs 🇵🇦 Panamá</td><td>17 Jun</td><td>1-1 Empate (57%)</td></tr>
-</tbody></table>
-</div>
-</div>
-
+<!-- ================= TENDENCIAS ================= -->
 <div id="tendencias" class="sec">
-
 <div class="tend-card">
-  <div class="tend-title">📈 Tendencia 1 — La norma del local: los 3 co-anfitriones rinden bajo presión</div>
-  <div class="tend-body">México ganó 2-0 pero con la ayuda de 2 expulsiones rivales. Su juego no fue brillante. <span class="trend-neu">Canadá está recibiendo el primer gol en casa ante Bosnia</span>, lo que revela que el "efecto local" no elimina el factor sorpresa. EE.UU. esta noche ante Paraguay tendrá el mismo desafío. <b>Conclusión:</b> Apostar a los co-anfitriones con handicap bajo es más seguro que apostar a goleadas. Los 3 equipos CONCACAF mostrarán flojedad ofensiva en grupos.</div>
+  <div class="tend-title">📈 Tendencia — La norma del local bajo presión</div>
+  <div class="tend-body">Canadá y otros co-anfitriones sintiendo la presión en sus debuts. Monitorear los arranques lentos ofensivos de equipos de CONCACAF.</div>
+</div>
 </div>
 
-<div class="tend-card">
-  <div class="tend-title">⚠️ Tendencia 2 — Chequia en crisis: Schick irrelevante, la defensa cedió</div>
-  <div class="tend-body">Schick (2.65T/90 en Leverkusen) no generó ningún tiro al arco. El sistema checo fue desmontado por la transición rápida coreana. Krejčí marcó de cabeza en jugada de banda (posición fija), lo que indica que el ataque checo depende de balones parados, no de juego dinámico. <span class="trend-down">Chequia 50% probabilidad de clasificar.</span> Si pierden el 18 Jun ante Sudáfrica, quedan virtualmente eliminados. <b>Esta tendencia afecta nuestra apuesta previa de Chequia clasificando como 2do.</b></div>
-</div>
-
-<div class="tend-card">
-  <div class="tend-title">🔥 Tendencia 3 — Corea del Sur más peligrosa de lo esperado</div>
-  <div class="tend-body">Lee Kang-in asistente magistral. Hwang In-beom finalizador clinico. El sistema de Corea (presión alta + transición) es más parecido al fútbol europeo de lo que cualquiera esperaba. <span class="trend-up">Corea del Sur sube de "2do probable" a "posible 1ro del grupo."</span> Si ganan o empatan ante México el 18 Jun, lideran el grupo A. Son Heung-min todavía no marcó — cuando entre en calor, el peligro sube.</div>
-</div>
-
-<div class="tend-card">
-  <div class="tend-title">🎯 Tendencia 4 — Los delanteros mundialistas tienden a arrancar fríos</div>
-  <div class="tend-body">Quiñones marcó el primer gol del torneo (no el favorito Jiménez). Hwang In-beom marcó para Corea (no Son). En Qatar 2022, en la jornada 1 los goleadores principales solo marcaron en 4 de 12 partidos. <span class="trend-neu">Esto sugiere que las cuotas de "primer goleador = estrella" están infladas en la jornada 2.</span> Apostar a goleadores secundarios en jornada 1-2 da valor real.</div>
-</div>
-
-<div class="tend-card">
-  <div class="tend-title">📊 Tendencia 5 — Promedio de goles en este Mundial: 2.0/partido (1 jornada)</div>
-  <div class="tend-body">México 2-0 SA (2 goles) + Corea 2-1 Chequia (3 goles) = 5 goles en 2 partidos = 2.5/partido hasta ahora. En Qatar 2022 el promedio final fue 2.69. <span class="trend-up">El torneo apunta a ser ligeramente más goleador que Qatar.</span> Las cuotas de "más de 2.5 goles" en partidos de las grandes selecciones (Brasil, Francia, Alemania, España vs rivales débiles) representan valor estadístico claro.</div>
-</div>
-
-<div class="tend-card">
-  <div class="tend-title">🚨 Tendencia 6 — Factor tarjetas rojas en la jornada inaugural</div>
-  <div class="tend-body">3 rojas en México-Sudáfrica (primera vez en un partido del Mundial). Esto distorsiona los datos de rendimiento de México: su dominio fue amplificado por jugar 60 minutos contra 10-9 jugadores. <span class="trend-neu">No podemos concluir que México sea un equipo dominante</span> hasta ver cómo rinde en igualdad numérica. El partido vs Corea del Sur el 18 Jun será la prueba real de su nivel.</div>
-</div>
-
-</div>
-
+<!-- ================= APUESTAS ================= -->
 <div id="apuestas" class="sec">
-
-<div class="disclaimer"><span class="warn">⚠️ DISCLAIMER IMPORTANTE:</span> Las siguientes recomendaciones son análisis estadístico-deportivo con fines informativos. No constituyen asesoramiento financiero. Las apuestas deportivas conllevan riesgo real de pérdida. Juega responsablemente y dentro de tus posibilidades. Solo para mayores de 18 años donde sea legal.</div>
-
 <div class="bet-card">
   <div class="bet-head">
     <div class="bet-title">🎯 APUESTA #1 — Más de 2.5 goles: Brasil vs Marruecos (13 Jun)</div>
     <div class="bet-odds">Cuota aprox. 1.80–2.00</div>
   </div>
-  <div class="bet-tags">
-    <span class="bet-tag t-alta">Confianza ALTA</span>
-    <span class="bet-tag t-valor">Valor real</span>
-  </div>
   <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:76%"></div></div><span class="conf-pct">76%</span></div>
-  <div class="bet-reason"><b>Fundamento:</b> Brasil (Vinicius 3.45T/90, Raphinha 3.15T/90, Martinelli 2.9T/90) tiene el tridente con más tiros/90 combinados del torneo. Marruecos también ataca bien (En-Nesyri 2.7T/90 en Turquía). Los últimos 5 cruces Brasil-Marruecos promediaron 3.4 goles. En MetLife Stadium (campo rápido, gramilla perfecta). Brasil llegando motivado con Ancelotti. Este partido NECESITA goles para demostrar el nivel de ambas selecciones. El mercado tiende a subestimar los primeros partidos de Brasil por el historial cauteloso en mundiales, dando valor a la cuota de goles.</div>
-</div>
-
-<div class="bet-card">
-  <div class="bet-head">
-    <div class="bet-title">🎯 APUESTA #2 — España gana y + de 3.5 goles vs Cabo Verde (16 Jun)</div>
-    <div class="bet-odds">Cuota aprox. 2.20–2.50</div>
-  </div>
-  <div class="bet-tags">
-    <span class="bet-tag t-alta">Confianza ALTA</span>
-    <span class="bet-tag t-valor">Valor real</span>
-  </div>
-  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:82%"></div></div><span class="conf-pct">82%</span></div>
-  <div class="bet-reason"><b>Fundamento:</b> Yamal (lesión leve resuelta, confirmado disponible). Nico Williams también disponible. España ante rivales de nivel bajo-medio marcó en promedio 3.8 goles en las últimas 6 Naciones League. Cabo Verde es 57° del ranking FIFA y no tiene un solo jugador en top 5 ligas europeas que llegue con más de 0.8T/arco/90. De La Fuente buscará el golpe de autoridad en el debut. Rodri (regresado de lesión, con hambre) + Pedri dirán quién es España. Esta apuesta tiene valor porque la cuota de +3.5 está inflada por el factor "primer partido nervioso" — España históricamente mete 4+ en debúts mundialistas contra rivales débiles (6-0 España vs Costa Rica en Qatar 2022).</div>
-</div>
-
-<div class="bet-card">
-  <div class="bet-head">
-    <div class="bet-title">🎯 APUESTA #3 — Alemania gana con handicap -1.5 vs C. de Marfil (14 Jun)</div>
-    <div class="bet-odds">Cuota aprox. 1.90–2.10</div>
-  </div>
-  <div class="bet-tags">
-    <span class="bet-tag t-alta">Confianza ALTA</span>
-    <span class="bet-tag t-valor">Valor real</span>
-  </div>
-  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:78%"></div></div><span class="conf-pct">78%</span></div>
-  <div class="bet-reason"><b>Fundamento:</b> Wirtz (3.05T/90, 14A en Bundesliga) + Musiala (2.7T/90) + Havertz (2.5T/90). Los tres llegan en racha de 5 victorias consecutivas con Bayern/Arsenal. Costa de Marfil sin Zaha (lesionado, no convocado). Haller es su único delantero real de nivel europeo (2.3T/90 en BVB). La brecha estadística entre Alemania y C. Marfil en xG generado/concedido es de 2.1 goles por partido. Ganar por 2+ goles ocurre el 68% de las veces cuando Alemania enfrenta selecciones africanas en Mundiales. El torneo base: España 6-0 a Costa Rica en Qatar 2022 — Alemania puede hacer lo mismo aquí.</div>
-</div>
-
-<div class="bet-card">
-  <div class="bet-head">
-    <div class="bet-title">🎯 APUESTA #4 — Noruega gana y Haaland marca vs Irak (16 Jun)</div>
-    <div class="bet-odds">Cuota aprox. 1.60–1.80</div>
-  </div>
-  <div class="bet-tags">
-    <span class="bet-tag t-alta">Confianza MUY ALTA</span>
-  </div>
-  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:88%"></div></div><span class="conf-pct">88%</span></div>
-  <div class="bet-reason"><b>Fundamento:</b> Haaland con 16 goles en 8 partidos de clasificación UEFA (2.0 goles/partido de promedio). irak = 63° ranking FIFA, 0 jugadores en las top 5 ligas europeas. Es el primer Mundial de Haaland — llega con motivación histórica y sin margen para el error. La cuota de "Noruega gana + Haaland anota" está infravalorada porque el mercado teme la presión del debut. Estadísticamente, los máximos goleadores de clasificación convierten en el debut mundialista el 74% de las veces (Mbappe, Kane, Lewandowski en sus primeros partidos). Esta es la apuesta con mejor relación riesgo/retorno del torneo.</div>
-</div>
-
-<div class="bet-card">
-  <div class="bet-head">
-    <div class="bet-title">🎯 APUESTA #5 — Empate México vs Corea del Sur (18 Jun)</div>
-    <div class="bet-odds">Cuota aprox. 3.00–3.40</div>
-  </div>
-  <div class="bet-tags">
-    <span class="bet-tag t-med">Confianza MEDIA</span>
-    <span class="bet-tag t-valor">Alto valor en cuota</span>
-  </div>
-  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill med" style="width:55%"></div></div><span class="conf-pct">55%</span></div>
-  <div class="bet-reason"><b>Fundamento:</b> Corea del Sur mostró el 11 Jun que puede competir de tú a tú con cualquier selección A. México ganó pero con ventaja de rojas. Son todavía no marcó (y cuando lo haga, cambia el partido). Los dos equipos llegan con 3 puntos, ambos querrán asegurar clasificación sin arriesgar. Este tipo de partido "grande del grupo" tiende al empate el 40% de las veces en la historia del torneo. La cuota de 3.00+ tiene valor real porque el mercado asume victoria mexicana al ser local. <b>Riesgo:</b> Si Chequia pierde ante Sudáfrica el mismo día, ambos equipos pueden preferir arriesgar sabiendo que cualquier resultado los clasifica.</div>
-</div>
-
-<div class="bet-card">
-  <div class="bet-head">
-    <div class="bet-title">🎯 APUESTA #6 — Colombia clasifica de su grupo (Grupo K) — Apuesta de torneo</div>
-    <div class="bet-odds">Cuota aprox. 1.30–1.50</div>
-  </div>
-  <div class="bet-tags">
-    <span class="bet-tag t-alta">Confianza MUY ALTA</span>
-    <span class="bet-tag t-valor">Base del parlay</span>
-  </div>
-  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:93%"></div></div><span class="conf-pct">93%</span></div>
-  <div class="bet-reason"><b>Fundamento:</b> Luis Díaz (15G+14A en Bayern, temporada histórica) en su mejor año profesional. James Rodríguez en LaLiga con 13 asistencias. Colombia venció a Brasil y Argentina en eliminatorias CONMEBOL — la única selección que puede decir eso. El Grupo K tiene a Uzbekistán (sin jugadores en top 5 ligas) y Congo DR (primera aparición mundialista). Colombia clasifica el 93% de las veces con este nivel de plantel vs estos rivales. Ideal como pata segura de un parlay combinado.</div>
-</div>
-
-<div class="bet-card">
-  <div class="bet-head">
-    <div class="bet-title">🎯 APUESTA #7 — Chequia NO clasifica / Sudáfrica o Chequia en último lugar del Gpo A</div>
-    <div class="bet-odds">Cuota aprox. 1.80–2.20</div>
-  </div>
-  <div class="bet-tags">
-    <span class="bet-tag t-med">Confianza MEDIA-ALTA</span>
-    <span class="bet-tag t-valor">Emerging value</span>
-  </div>
-  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill med" style="width:68%"></div></div><span class="conf-pct">68%</span></div>
-  <div class="bet-reason"><b>Fundamento ACTUALIZADO:</b> La derrota 1-2 de Chequia ante Corea es una señal real, no solo un resultado. Schick no generó ni un tiro al arco (su estadística más baja del año). El sistema de Koubek (74 años, tercera derrota consecutiva en torneos) no adaptó el plan de juego tras ir perdiendo. Con Sudáfrica también derrotada pero con 2 jugadores suspendidos (Sithole + Zwane), el duelo Chequia-Sudáfrica el 18 Jun puede verse beneficiado por el equipo checo — pero incluso ganando ese partido, Chequia necesita que México gane o empate a Corea para tener opciones. Las cuotas de Chequia "no clasificar" están dando buen valor post-derrota.</div>
-</div>
-
-<div class="bet-card">
-  <div class="bet-head">
-    <div class="bet-title">🎯 PARLAY RECOMENDADO — Las 3 apuestas de mayor confianza combinadas</div>
-    <div class="bet-odds">Cuota combinada: ~5.50–7.50</div>
-  </div>
-  <div class="bet-tags">
-    <span class="bet-tag t-alta">Parlay curado</span>
-    <span class="bet-tag t-valor">Máximo valor</span>
-  </div>
-  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:62%"></div></div><span class="conf-pct">62%</span></div>
-  <div class="bet-reason">
-    <b>Componentes:</b><br>
-    1. <b>Noruega gana vs Irak</b> (88% individual) — Haaland debuta en su 1er Mundial ante el rival más débil de su grupo<br>
-    2. <b>España +3.5 goles vs Cabo Verde</b> (82% individual) — Yamal disponible, rival sin nivel, España busca mandar señal<br>
-    3. <b>Colombia clasifica del Grupo K</b> (93% individual) — Díaz en estado de gracia, grupo débil<br><br>
-    <b>Fundamento combinado:</b> Las 3 apuestas tienen factores independientes entre sí (no están correlacionadas por rivales o condiciones). Si los 3 eventos ocurren, multiplicamos ~1.70 × 1.65 × 1.35 = ~3.79 (ajustando márgenes de casa) lo que sobre una cuota de 5.50+ ofrece valor esperado positivo. Es el parlay más sólido con menor riesgo de correlación negativa.
-  </div>
-</div>
-
-<div class="note-box" style="margin-top:12px">
-  <h3>Apuestas a EVITAR en esta jornada</h3>
-  <p><span class="trend-down">❌ EE.UU. gana por +3 goles vs Paraguay</span> — Paraguay es un bloque defensivo sólido (4-4-2 compacto). EE.UU. no ha mostrado aún capacidad de goleada.<br>
-  <span class="trend-down">❌ México gana de forma convincente el 18 Jun vs Corea</span> — Corea demostró ser competitiva. La cuota está inflada por el factor local.<br>
-  <span class="trend-down">❌ Chequia clasifica 2do del Grupo A</span> — La derrota ante Corea cambió este escenario completamente. Evitar.<br>
-  <span class="trend-down">❌ Messi anota en el debut de Argentina</span> — Lesión de isquiotibial + 39 años + ritmo de MLS = arranque cauteloso esperado.</p>
-</div>
 </div>
 </div>
 
+</div>
+
+<!-- ================= JAVASCRIPT BLINDADO ================= -->
 <script>
-// ================= JAVASCRIPT CORREGIDO =================
-
-// Sistema original para cambiar de pestañas en la web
 function sw(id,btn){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
@@ -443,7 +230,6 @@ function sw(id,btn){
   btn.classList.add('active');
 }
 
-// Endpoint global de fútbol para capturar partidos en vivo activos hoy
 const urlBase = 'https://site.api.espn.com/apis/site/v2/sports/soccer/scoreboard';
 const espnUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlBase)}`;
 
@@ -533,7 +319,6 @@ async function cargarMarcadoresESPN() {
     }
 }
 
-// Ejecución inicial y refresco automático cada 30 segundos
 cargarMarcadoresESPN();
 setInterval(cargarMarcadoresESPN, 30000);
 </script>
