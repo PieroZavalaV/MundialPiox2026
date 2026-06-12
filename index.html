@@ -231,9 +231,123 @@ function sw(id,btn){
 }
 
 const urlBase = 'https://site.api.espn.com/apis/site/v2/sports/soccer/scoreboard';
-const espnUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlBase)}`;
 
 async function cargarMarcadoresESPN() {
+    // Lista de proxies de respaldo por si uno se cae
+    const proxies = [
+        `https://api.allorigins.win/get?url=${encodeURIComponent(urlBase)}`,
+        `https://corsproxy.io/?${encodeURIComponent(urlBase)}`
+    ];
+    
+    let data = null;
+    let exito = false;
+
+    // Intentamos cargar usando los proxies disponibles uno por uno
+    for (let url de proxies) {
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+                const rawData = await response.json();
+                // AllOrigins guarda el JSON dentro de .contents, corsproxy lo devuelve directo
+                data = typeof rawData.contents === 'string' ? JSON.parse(rawData.contents) : (rawData.contents || rawData);
+                if (data && data.events) {
+                    exito = true;
+                    break; // Si funcionó, salimos del bucle
+                }
+            }
+        } catch (e) {
+            console.warn("Falló un proxy, intentando el siguiente...", e);
+        }
+    }
+
+    // Si ambos fallaron, intentamos pegarle directo a ESPN cruzando los dedos por el CORS
+    if (!exito) {
+        try {
+            const response = await fetch(urlBase);
+            if (response.ok) {
+                data = await response.json();
+                exito = true;
+            }
+        } catch(e) {
+            console.error("Todos los intentos fallaron");
+        }
+    }
+
+    // Si logramos conseguir la data, la pintamos
+    if (exito && data && data.events) {
+        const matches = data.events;
+        if(matches.length === 0) {
+            document.getElementById('contenedor-partidos-api').innerHTML = `
+                <div class="res-card upcoming" style="border-left: 3px solid #ccc; padding: 12px;">
+                  <div class="res-note">No se detectaron partidos internacionales activos en este instante.</div>
+                </div>`;
+            return;
+        }
+
+        let htmlContent = '';
+
+        matches.forEach(match => {
+            if (!match.competitions || !match.competitions[0]) return;
+            
+            let location = 'Estadio Mundialista';
+            if (match.competitions[0].venue && match.competitions[0].venue.fullName) {
+                location = match.competitions[0].venue.fullName;
+            }
+            
+            const headingText = `${match.league?.name || 'Fútbol Internacional'} · ${location}`;
+            const statusType = match.status?.type?.state || 'pre';
+            const statusDetail = match.status?.type?.detail || 'Programado';
+            
+            let cardClass = 'upcoming';
+            let tagClass = 'tag-prox';
+            let tagText = statusDetail;
+
+            if(statusType === 'in') {
+                cardClass = 'live';
+                tagClass = 'tag-live';
+                tagText = `EN VIVO • ${statusDetail}`;
+            } else if(statusType === 'post') {
+                cardClass = 'confirmed';
+                tagClass = 'tag-final';
+                tagText = 'FINAL ✓';
+            }
+
+            const competitors = match.competitions[0].competitors;
+            if (!competitors || competitors.length < 2) return;
+            
+            const team1 = competitors[0];
+            const team2 = competitors[1];
+
+            const score1 = statusType === 'pre' ? 'vs' : (team1.score || '0');
+            const score2 = statusType === 'pre' ? '' : (team2.score || '0');
+            const scoreDisplay = statusType === 'pre' ? 'vs' : `${score1} – ${score2}`;
+
+            let noteText = "Sigue las estadísticas en directo.";
+            if (match.competitions[0].headlines && match.competitions[0].headlines.length > 0) {
+                noteText = match.competitions[0].headlines[0].description;
+            }
+
+            htmlContent += `
+                <div class="res-card ${cardClass}" style="margin-bottom: 15px;">
+                  <div class="res-head">
+                      <span class="res-title" style="font-weight: 600; color: var(--color-text-secondary);">${headingText}</span>
+                      <span class="res-tag ${tagClass}">${tagText}</span>
+                  </div>
+                  <div class="res-score">
+                    <span class="team-name">${team1.team?.displayName || 'Por definir'}</span>
+                    <span class="score-box" style="font-size:20px; font-weight:bold;">${scoreDisplay}</span>
+                    <span class="team-name" style="text-align:right">${team2.team?.displayName || 'Por definir'}</span>
+                  </div>
+                  <div class="res-note" style="font-style: italic; color: var(--color-text-secondary);">📢 ${noteText}</div>
+                </div>
+            `;
+        });
+
+        document.getElementById('contenedor-partidos-api').innerHTML = htmlContent;
+    } else {
+        document.getElementById('contenedor-partidos-api').innerHTML = '<div style="font-size:11px; color:#ba7517; padding:10px; text-align:center;">Buscando señal alternativa en vivo...</div>';
+    }
+}
     try {
         const response = await fetch(espnUrl);
         if (!response.ok) throw new Error('Error en la petición de red');
