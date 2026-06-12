@@ -84,6 +84,23 @@ tr:last-child td{border-bottom:none}
 .note-box{background:var(--color-background-secondary, #f9f9f9);border-radius:var(--border-radius-lg, 8px);padding:10px 14px;margin-top:8px;margin-bottom:4px}
 .note-box h3{font-size:12.5px;font-weight:500;margin-bottom:4px}
 .note-box p{font-size:11.5px;color:var(--color-text-secondary, #666);line-height:1.6}
+/* --- TUNEO DE TARJETAS: TRANSICIONES Y EFECTOS --- */
+/* 1. Le decimos a las tarjetas que se preparen para animarse suavemente */
+.res-card, .bet-card, .tend-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+/* 2. El efecto cuando pasas el mouse por encima (Hover) */
+.res-card:hover, .bet-card:hover, .tend-card:hover {
+    transform: translateY(-4px); /* Eleva la tarjeta sutilmente hacia arriba */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); /* Le crea una sombra suave abajo para dar efecto de flotado */
+    cursor: pointer; /* Cambia el cursor a la manito para indicar que es interactivo */
+}
+
+/* 3. Un extra para las tarjetas en vivo: si pasas el mouse, el color resalta un toque más */
+.res-card.live:hover {
+    background: #FFF0F0;
+}
 </style>
 </head>
 <body>
