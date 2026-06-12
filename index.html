@@ -336,33 +336,36 @@ function sw(id,btn){
   btn.classList.add('active');
 }
 
-// === INTEGRACIÓN CON LA API DE ESPN CORREGIDA (HTTPS) ===
-// Cambiado explícitamente a https para evitar el bloqueo de contenido mixto en GitHub Pages
-const espnUrl = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+// === INTEGRACIÓN CON PROXY PARA EVITAR BLOQUEO DE ESPN ===
+// Usamos allorigins para saltarnos el CORS que bloquea GitHub Pages
+const urlBase = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+const espnUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlBase)}`;
 
 async function cargarMarcadoresESPN() {
     try {
         const response = await fetch(espnUrl);
-        const data = await response.json();
+        if (!response.ok) throw new Error('Error en la red');
+        
+        const rawData = await response.json();
+        // Allorigins devuelve la respuesta real dentro de una propiedad 'contents' como string
+        const data = JSON.parse(rawData.contents);
         const matches = data.events || [];
         
         if(matches.length === 0) {
-            document.getElementById('contenedor-partidos-api').innerHTML = '<p style="font-size:12px; color:#666; padding: 10px 0;">No hay partidos programados o activos para la fecha actual en ESPN.</p>';
+            document.getElementById('contenedor-partidos-api').innerHTML = '<p style="font-size:12px; color:#666; padding: 10px 0;">No hay partidos programados para hoy en ESPN.</p>';
             return;
         }
 
         let htmlContent = '';
 
         matches.forEach(match => {
-            // Validaciones de seguridad por si faltan campos en la respuesta de la API
             if (!match.competitions || !match.competitions[0]) return;
             
             const location = match.venue ? match.venue.fullName : 'Estadio Mundialista';
             const dateStr = match.date ? new Date(match.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : '';
             const headingText = `${match.league?.name || 'Mundial 2026'} · ${location} · ${dateStr}`;
             
-            // Estado del juego
-            const statusType = match.status?.type?.state || 'pre'; // 'pre', 'in', o 'post'
+            const statusType = match.status?.type?.state || 'pre';
             const statusDetail = match.status?.type?.detail || 'Programado';
             
             let cardClass = 'upcoming';
@@ -379,19 +382,16 @@ async function cargarMarcadoresESPN() {
                 tagText = 'FINAL ✓';
             }
 
-            // Datos de los competidores (Local vs Visitante)
             const competitors = match.competitions[0].competitors;
             if (!competitors || competitors.length < 2) return;
             
             const team1 = competitors[0];
             const team2 = competitors[1];
 
-            // Formatear marcadores dependiendo del estado
             const score1 = statusType === 'pre' ? 'vs' : (team1.score || '0');
             const score2 = statusType === 'pre' ? '' : (team2.score || '0');
             const scoreDisplay = statusType === 'pre' ? 'vs' : `${score1} – ${score2}`;
 
-            // Notas o detalles dinámicos
             let noteText = "Análisis en tiempo real disponible durante el partido.";
             if (match.competitions[0].headlines && match.competitions[0].headlines.length > 0) {
                 noteText = match.competitions[0].headlines[0].description;
@@ -413,19 +413,19 @@ async function cargarMarcadoresESPN() {
             `;
         });
 
-        document.getElementById('contenedor-partidos-api').innerHTML = htmlContent || '<p style="font-size:12px; color:#666;">No se encontraron partidos en esta jornada.</p>';
+        document.getElementById('contenedor-partidos-api').innerHTML = htmlContent;
 
     } catch (error) {
-        console.error("Error llamando a la API de ESPN:", error);
-        document.getElementById('contenedor-partidos-api').innerHTML = '<p style="font-size:12px; color:#E24B4A; padding: 10px 0;">Error de conexión con ESPN. Reintentando cargar marcadores en vivo...</p>';
+        console.error("Error con Proxy/ESPN:", error);
+        document.getElementById('contenedor-partidos-api').innerHTML = '<p style="font-size:12px; color:#E24B4A; padding: 10px 0;">Error de conexión. Reintentando puente alterno...</p>';
     }
 }
 
-// Ejecutar la carga inmediatamente al iniciar la web
+// Carga inicial
 cargarMarcadoresESPN();
 
-// Autorefrescar el marcador en vivo cada 30 segundos
-setInterval(cargarMarcadoresESPN, 30000);
+// Actualización automática cada 45 segundos para no saturar el proxy
+setInterval(cargarMarcadoresESPN, 45000);
 </script>
 </body>
 </html>
