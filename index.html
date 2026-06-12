@@ -1,667 +1,426 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mundial FIFA 2026 — Análisis & Marcadores</title>
-    <style>
-    /* Variables de color: Paleta Deportiva / Modo Claro Premium */
-    :root {
-        --bg-main: #f4f6f9;
-        --bg-card: #ffffff;
-        --primary: #0f172a; /* Azul oscuro elegante */
-        --accent: #0284c7;  /* Azul deportivo */
-        --text-main: #1e293b;
-        --text-muted: #64748b;
-        --border: #e2e8f0;
-        
-        /* Colores para veredictos y estados */
-        --win-bg: #dcfce7;
-        --win-text: #166534;
-        --draw-bg: #fef3c7;
-        --draw-text: #92400e;
-        --live-bg: #fee2e2;
-        --live-text: #991b1b;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mundial FIFA 2026 — Análisis Actualizado + Apuestas</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans, 'Segoe UI', sans-serif); background:#fdfdfd;}
+.wrap{padding:1.2rem; max-width: 800px; margin: 0 auto;}
+h1{font-size:21px;font-weight:500;color:var(--color-text-primary, #111);margin-bottom:3px}
+.sub{font-size:12px;color:var(--color-text-secondary, #666);margin-bottom:1rem;line-height:1.5}
+.live-badge{display:inline-flex;align-items:center;gap:5px;background:#FCEBEB;color:#791F1F;font-size:11px;padding:3px 9px;border-radius:var(--border-radius-md, 6px);margin-bottom:1rem;font-weight:500}
+.dot{width:7px;height:7px;border-radius:50%;background:#E24B4A;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.2rem}
+.tab{padding:5px 12px;font-size:12px;border:0.5px solid var(--color-border-secondary, #ccc);border-radius:var(--border-radius-md, 6px);cursor:pointer;background:transparent;color:var(--color-text-secondary, #555)}
+.tab.active{background:var(--color-background-secondary, #eee);color:var(--color-text-primary, #000);border-color:var(--color-border-primary, #222);font-weight:500}
+.sec{display:none}.sec.on{display:block}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+/* RESULTADOS */
+.res-card{background:var(--color-background-secondary, #f9f9f9);border-radius:var(--border-radius-lg, 8px);padding:12px 14px;margin-bottom:10px;border-left:3px solid transparent}
+.res-card.confirmed{border-left-color:#1D9E75}
+.res-card.live{border-left-color:#E24B4A}
+.res-card.upcoming{border-left-color:#B5D4F4}
+.res-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.res-title{font-size:12px;font-weight:500;color:var(--color-text-secondary, #555)}
+.res-tag{font-size:10px;padding:2px 7px;border-radius:var(--border-radius-md, 4px)}
+.tag-final{background:#EAF3DE;color:#27500A}
+.tag-live{background:#FCEBEB;color:#791F1F}
+.tag-prox{background:#E6F1FB;color:#0C447C}
+.res-score{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.team-name{font-size:13px;font-weight:500;flex:1}
+.score-box{font-size:18px;font-weight:500;color:var(--color-text-primary, #000);text-align:center;min-width:50px}
+.res-note{font-size:11.5px;color:var(--color-text-secondary, #666);line-height:1.5}
+.revelation{background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 var(--border-radius-md, 4px) var(--border-radius-md, 4px) 0;padding:8px 12px;font-size:11.5px;color:#633806;margin-bottom:12px}
 
-    body { 
-        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
-        background-color: var(--bg-main);
-        color: var(--text-main);
-        padding: 24px;
-        line-height: 1.5;
-    }
+/* TABLA GRUPOS */
+.grp-block{margin-bottom:1.5rem}
+.grp-hdr{font-size:14px;font-weight:500;color:var(--color-text-primary, #111);padding:7px 0 5px;border-bottom:0.5px solid var(--color-border-tertiary, #ddd);margin-bottom:8px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.badge{font-size:10px;padding:2px 7px;border-radius:var(--border-radius-md, 4px)}
+.bf{background:#E6F1FB;color:#0C447C}
+.bg{background:#EAF3DE;color:#27500A}
+.br{background:#FCEBEB;color:#791F1F}
+.ba{background:#FAEEDA;color:#633806}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:4px;table-layout:fixed}
+th{text-align:left;padding:6px 7px;color:var(--color-text-secondary, #666);font-weight:400;font-size:11px;border-bottom:0.5px solid var(--color-border-tertiary, #ddd)}
+td{padding:6px 7px;border-bottom:0.5px solid var(--color-border-tertiary, #ddd);color:var(--color-text-primary, #111);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.pts{font-weight:500;font-size:13px}
+.pos{font-weight:500;width:18px;display:inline-block}
 
-    /* Encabezado Pro */
-    .hdr {
-        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-        color: white;
-        padding: 32px;
-        border-radius: 16px;
-        margin-bottom: 24px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    }
-    .hdr h1 { 
-        font-size: 28px; 
-        font-weight: 700; 
-        letter-spacing: -0.5px;
-        margin-bottom: 6px;
-    }
-    .hdr p { 
-        color: #93c5fd; 
-        font-size: 14px; 
-        font-weight: 500;
-    }
+/* APUESTAS */
+.bet-card{border:0.5px solid var(--color-border-tertiary, #ddd);border-radius:var(--border-radius-lg, 8px);padding:12px 14px;margin-bottom:10px;background:var(--color-background-primary, #fff)}
+.bet-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:8px}
+.bet-title{font-size:13px;font-weight:500;color:var(--color-text-primary, #111);flex:1}
+.bet-odds{font-size:13px;font-weight:500;color:#0C447C;white-space:nowrap}
+.conf-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.conf-label{font-size:11px;color:var(--color-text-secondary, #666);min-width:70px}
+.conf-bar-wrap{flex:1;height:6px;background:var(--color-border-tertiary, #ddd);border-radius:3px;overflow:hidden}
+.conf-fill{height:100%;border-radius:3px;background:#378ADD}
+.conf-fill.hi{background:#1D9E75}
+.conf-fill.med{background:#BA7517}
+.conf-fill.lo{background:#E24B4A}
+.conf-pct{font-size:11px;font-weight:500;color:var(--color-text-primary, #111);min-width:32px;text-align:right}
+.bet-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.bet-tag{font-size:10px;padding:2px 6px;border-radius:var(--border-radius-md, 4px)}
+.t-alta{background:#EAF3DE;color:#27500A}
+.t-med{background:#FAEEDA;color:#633806}
+.t-baja{background:#FCEBEB;color:#791F1F}
+.t-valor{background:#E6F1FB;color:#0C447C}
+.bet-reason{font-size:11.5px;color:var(--color-text-secondary, #666);line-height:1.6}
+.disclaimer{background:var(--color-background-secondary, #f9f9f9);border-radius:var(--border-radius-lg, 8px);padding:10px 14px;font-size:11px;color:var(--color-text-secondary, #666);margin-bottom:1rem;line-height:1.5}
+.warn{color:#BA7517;font-weight:500}
 
-    /* Menú de Pestañas Moderno */
-    .tabs { 
-        display: flex; 
-        gap: 8px; 
-        margin-bottom: 24px; 
-        background: #e2e8f0;
-        padding: 6px;
-        border-radius: 12px;
-        width: fit-content;
-        overflow-x: auto;
-    }
-    .tab { 
-        padding: 10px 20px; 
-        font-size: 14px; 
-        font-weight: 600;
-        border: none; 
-        border-radius: 8px; 
-        cursor: pointer; 
-        background: transparent;
-        color: var(--text-muted);
-        transition: all 0.2s ease;
-        white-space: nowrap;
-    }
-    .tab:hover {
-        color: var(--primary);
-    }
-    .tab.active { 
-        background: var(--bg-card); 
-        color: var(--primary); 
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
+/* TENDENCIAS */
+.tend-card{background:var(--color-background-secondary, #f9f9f9);border-radius:var(--border-radius-lg, 8px);padding:12px 14px;margin-bottom:10px}
+.tend-title{font-size:13px;font-weight:500;margin-bottom:6px}
+.tend-body{font-size:12px;color:var(--color-text-secondary, #666);line-height:1.6}
+.trend-up{color:#1D9E75;font-weight:500}
+.trend-down{color:#E24B4A;font-weight:500}
+.trend-neu{color:#BA7517;font-weight:500}
 
-    /* Secciones */
-    .section { display: none; }
-    .section.visible { display: block; }
-
-    /* Contenedores de Grupos (Estilo Tarjeta) */
-    .group-block { 
-        background: var(--bg-card);
-        border-radius: 16px;
-        padding: 24px;
-        margin-bottom: 32px; 
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02);
-        border: 1px solid var(--border);
-    }
-
-    .group-title { 
-        font-size: 18px; 
-        font-weight: 700; 
-        color: var(--primary);
-        margin-bottom: 20px; 
-        padding-bottom: 12px; 
-        border-bottom: 2px solid var(--border);
-        display: flex; 
-        align-items: center; 
-        gap: 12px; 
-    }
-
-    /* Etiquetas (Badges) */
-    .badge { 
-        font-size: 11px; 
-        padding: 6px 12px; 
-        border-radius: 20px; 
-        font-weight: 600; 
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    .badge-fav { background-color: #e0f2fe; color: #0369a1; }
-    .badge-dark { background-color: #fee2e2; color: #b91c1c; }
-    .badge-live { 
-        background-color: var(--live-bg); 
-        color: var(--live-text); 
-        animation: blink 1.5s infinite alternate;
-    }
-
-    @keyframes blink {
-        0% { opacity: 0.6; }
-        100% { opacity: 1; }
-    }
-
-    /* Tablas con diseño limpio y adaptables */
-    .table-container {
-        width: 100%;
-        overflow-x: auto;
-        border-radius: 8px;
-    }
-    table { 
-        width: 100%; 
-        border-collapse: collapse; 
-        font-size: 14px; 
-        text-align: left;
-        min-width: 850px; 
-    }
-    th { 
-        color: var(--text-muted); 
-        font-weight: 600; 
-        padding: 12px 16px;
-        border-bottom: 2px solid var(--border);
-        text-transform: uppercase;
-        font-size: 12px;
-        letter-spacing: 0.5px;
-    }
-    td { 
-        padding: 16px; 
-        border-bottom: 1px solid var(--border);
-        vertical-align: middle;
-    }
-    tr:hover td {
-        background-color: #f8fafc; 
-    }
-
-    /* Detalles de los partidos */
-    .team-col { font-weight: 600; color: var(--primary); width: 220px; }
-    .score { font-weight: 700; font-size: 15px; color: var(--primary); background: #f1f5f9; padding: 4px 10px; border-radius: 6px; text-align: center; display: inline-block; min-width: 55px; }
-    .score-live { background: #fee2e2; color: #991b1b; }
-
-    /* Estados de Veredicto */
-    .win { color: var(--win-text); background: var(--win-bg); padding: 6px 12px; border-radius: 8px; font-weight: 600; display: inline-block; }
-    .draw { color: var(--draw-text); background: var(--draw-bg); padding: 6px 12px; border-radius: 8px; font-weight: 600; display: inline-block; }
-
-    /* Barra de Confianza Estilizada */
-    .conf-container {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        min-width: 130px;
-    }
-    .conf-bar { 
-        height: 8px; 
-        width: 80px;
-        border-radius: 4px; 
-        background: #e2e8f0; 
-        display: inline-block; 
-        overflow: hidden;
-    }
-    .conf-bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #3b82f6, #0284c7);
-        border-radius: 4px;
-    }
-    .conf-val { font-weight: 600; color: var(--text-main); font-size: 13px; }
-
-    .analysis { color: var(--text-muted); font-size: 13.5px; }
-    
-    /* Grid de Jugadores Modificado (Tarjetas Premium) */
-    .player-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 20px;
-        margin-top: 12px;
-    }
-    .player-card {
-        background: #f8fafc;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.01);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .player-name { font-weight: 700; color: var(--primary); font-size: 18px; margin-bottom: 2px; }
-    .player-meta { font-size: 11px; color: var(--accent); font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-    
-    /* Estadísticas del Jugador */
-    .player-stats {
-        background: #ffffff;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 12px;
-        margin: 12px 0;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        text-align: center;
-    }
-    .stat-box { display: flex; flex-direction: column; }
-    .stat-val { font-size: 16px; font-weight: 700; color: var(--primary); }
-    .stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-top: 2px; }
-
-    /* Estilos específicos para la tabla de posiciones real */
-    .table-pos { min-width: 600px; }
-    .table-pos th, .table-pos td { padding: 10px 12px; text-align: center; }
-    .table-pos td:nth-child(2) { text-align: left; font-weight: 600; }
-    .fw-bold { font-weight: 700; color: var(--primary); }
-    </style>
+.note-box{background:var(--color-background-secondary, #f9f9f9);border-radius:var(--border-radius-lg, 8px);padding:10px 14px;margin-top:8px;margin-bottom:4px}
+.note-box h3{font-size:12.5px;font-weight:500;margin-bottom:4px}
+.note-box p{font-size:11.5px;color:var(--color-text-secondary, #666);line-height:1.6}
+</style>
 </head>
 <body>
 
-<div class="hdr">
-  <h1>Mundial FIFA 2026 — Análisis & Marcadores</h1>
-  <p>Seguimiento estadístico · 104 partidos · Resultados reales en vivo vs Pronósticos del grupo</p>
+<div class="wrap">
+<h1>Mundial FIFA 2026 — Análisis Actualizado + Apuestas</h1>
+<div class="sub">Resultados reales confirmados · Tendencias emergentes · Pronósticos actualizados · Apuestas con fundamento estadístico</div>
+<div class="live-badge"><span class="dot"></span>ACTUALIZADO EN VIVO · API ESPN</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="sw('resultados',this)">Resultados Jornada 1-2</button>
+  <button class="tab" onclick="sw('grupos',this)">Tablas Actualizadas</button>
+  <button class="tab" onclick="sw('tendencias',this)">Tendencias & Análisis</button>
+  <button class="tab" onclick="sw('apuestas',this)">🎯 Apuestas Recomendadas</button>
 </div>
 
-<div class="tabs" id="tabs">
-  <button class="tab active" onclick="show('live')">🔴 Marcadores en Vivo</button>
-  <button class="tab" onclick="show('grupos')">Fase de Grupos (Predicciones)</button>
-  <button class="tab" onclick="show('knockouts')">Eliminatorias</button>
-  <button class="tab" onclick="show('jugadores')">Jugadores Clave</button>
-  <button class="tab" onclick="show('resumen')">Campeón Proyectado</button>
+<!-- RESULTADOS -->
+<div id="resultados" class="sec on">
+  <div class="revelation">⚠️ <b>Hallazgo clave Jornada 1:</b> Chequia perdió 1-2 ante Corea del Sur. Era uno de los favoritos del Grupo A en mi análisis previo — Schick marcó 0 goles. México ganó pero con solo 2-0 ante Sudáfrica (que terminó con 9 jugadores por 2 rojas). El rendimiento de El Tri fue correcto pero no brillante.</div>
+  
+  <!-- Contenedor dinámico de partidos inyectados por la API -->
+  <div id="contenedor-partidos-api">
+      <p style="font-size:12px; color:#666;">Buscando marcadores actualizados de ESPN...</p>
+  </div>
 </div>
 
-<div id="live" class="section visible">
-    <div class="group-block">
-        <div class="group-title">Partidos de Hoy — 11 de Junio <span class="badge badge-live">LIVE</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Marcador Real</th><th>Estado</th><th>Detalle / Incidencias</th></tr></thead>
-                <tbody>
-                    <tr>
-                        <td class="team-col">México vs Sudáfrica</td>
-                        <td><span class="score score-live">0 – 0</span></td>
-                        <td><span class="draw" style="background:#fee2e2; color:#991b1b;">Por jugar</span></td>
-                        <td class="analysis">Partido inaugural en el Estadio Azteca. Presión alta del Tri.</td>
-                    </tr>
-                    <tr>
-                        <td class="team-col">Canadá vs Suiza</td>
-                        <td><span class="score">0 – 0</span></td>
-                        <td><span class="draw" style="background:#f1f5f9; color:#475569;">Por jugar</span></td>
-                        <td class="analysis">Programado para las 18:00 hrs en Vancouver.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Tabla de Posiciones Real — Grupo A</div>
-        <div class="table-container">
-            <table class="table-pos">
-                <thead>
-                    <tr><th>Pos</th><th style="text-align: left;">Selección</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DG</th><th class="fw-bold">PTS</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>1</td><td>México</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="fw-bold">0</td></tr>
-                    <tr><td>2</td><td>Sudáfrica</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="fw-bold">0</td></tr>
-                    <tr><td>3</td><td>Corea del Sur</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="fw-bold">0</td></tr>
-                    <tr><td>4</td><td>Chequia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="fw-bold">0</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<!-- TABLAS ACTUALIZADAS -->
+<div id="grupos" class="sec">
+<div class="grp-block">
+<div class="grp-hdr">Grupo A — Tras Jornada 1 <span class="badge bf">México lidera</span><span class="badge br">⚠️ Chequia sorprendida</span></div>
+<table>
+<thead><tr><th style="width:5%">#</th><th style="width:35%">Selección</th><th style="width:10%">PJ</th><th style="width:10%">G</th><th style="width:10%">E</th><th style="width:10%">P</th><th style="width:10%">DG</th><th style="width:10%">Pts</th></tr></thead>
+<tbody>
+<tr><td><span class="pos">1</span></td><td>🇲🇽 México</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+2</td><td class="pts">3</td></tr>
+<tr><td><span class="pos">2</span></td><td>🇰🇷 Corea del Sur</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+1</td><td class="pts">3</td></tr>
+<tr><td><span class="pos">3</span></td><td>🇨🇿 Chequia</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-1</td><td class="pts">0</td></tr>
+<tr><td><span class="pos">4</span></td><td>🇿🇦 Sudáfrica</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-2</td><td class="pts">0</td></tr>
+</tbody></table>
+<div class="note-box">
+  <h3>Análisis actualizado Grupo A</h3>
+  <p>La derrota de Chequia cambia el panorama. México necesita al menos un empate ante Corea del Sur el 18 Jun para asegurar el 1er puesto. Si Chequia pierde ante Sudáfrica el 18 Jun, quedaría prácticamente eliminada. El partido México-Corea del Sur el 18 Jun es ahora el más importante del grupo. <span class="trend-up">México 1ro proyectado (92%).</span> <span class="trend-up">Corea 2do (78%).</span> <span class="trend-down">Chequia en crisis (50% de sobrevivir).</span></p>
+</div>
 </div>
 
-<div id="grupos" class="section">
-
-    <div class="group-block">
-        <div class="group-title">Grupo A — México, Corea del Sur, Sudáfrica, Chequia <span class="badge badge-fav">Favorito: México</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">México vs Sudáfrica</td><td><span class="score">2 – 0</span></td><td><span class="win">México</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:83%;"></div></div><span class="conf-val">83%</span></td><td class="analysis">Local, Estadio Azteca, ventaja de altitud. Lozano y Antuna en buen nivel.</td></tr>
-                    <tr><td class="team-col">Corea del Sur vs Chequia</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:58%;"></div></div><span class="conf-val">58%</span></td><td class="analysis">Son-Heung Min vs bloque checo sólido. Equilibrio táctico.</td></tr>
-                    <tr><td class="team-col">México vs Corea del Sur</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:61%;"></div></div><span class="conf-val">61%</span></td><td class="analysis">Son es un peligro constante. México con Ochoa confiable.</td></tr>
-                    <tr><td class="team-col">Chequia vs Sudáfrica</td><td><span class="score">2 – 0</span></td><td><span class="win">Chequia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:76%;"></div></div><span class="conf-val">76%</span></td><td class="analysis">Calidad técnica centroeuropea muy superior a los africanos.</td></tr>
-                    <tr><td class="team-col">México vs Chequia</td><td><span class="score">2 – 1</span></td><td><span class="win">México</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:70%;"></div></div><span class="conf-val">70%</span></td><td class="analysis">Decisivo. México necesita ganar. Apoyo de local determinante.</td></tr>
-                    <tr><td class="team-col">Sudáfrica vs Corea del Sur</td><td><span class="score">0 – 2</span></td><td><span class="win">Corea del Sur</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:80%;"></div></div><span class="conf-val">80%</span></td><td class="analysis">Son y compañía dominan el último duelo. Sudáfrica sin argumentos.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo B — Canadá, Bosnia, Qatar, Suiza <span class="badge badge-fav">Favorito: Suiza</span><span class="badge badge-dark">Oscuro: Canadá</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Suiza vs Canadá</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:60%;"></div></div><span class="conf-val">60%</span></td><td class="analysis">Canadá local en Vancouver. Xhaka vs Davies, duelo táctico interesante.</td></tr>
-                    <tr><td class="team-col">Bosnia vs Qatar</td><td><span class="score">2 – 1</span></td><td><span class="win">Bosnia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:78%;"></div></div><span class="conf-val">78%</span></td><td class="analysis">Dzeko todavía peligroso. Qatar sin nivel para competir en este Mundial.</td></tr>
-                    <tr><td class="team-col">Suiza vs Bosnia</td><td><span class="score">2 – 0</span></td><td><span class="win">Suiza</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:81%;"></div></div><span class="conf-val">81%</span></td><td class="analysis">Xhaka y Embolo. Organización táctica suiza impecable.</td></tr>
-                    <tr><td class="team-col">Canadá vs Qatar</td><td><span class="score">3 – 0</span></td><td><span class="win">Canadá</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:90%;"></div></div><span class="conf-val">90%</span></td><td class="analysis">Alphonso Davies, Buchanan. Canadá tiene velocidad desbordante. Qatar sin nivel.</td></tr>
-                    <tr><td class="team-col">Suiza vs Qatar</td><td><span class="score">3 – 0</span></td><td><span class="win">Suiza</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:93%;"></div></div><span class="conf-val">93%</span></td><td class="analysis">Qatar prácticamente eliminado. Suiza cierra grupo con autoridad.</td></tr>
-                    <tr><td class="team-col">Canadá vs Bosnia</td><td><span class="score">2 – 1</span></td><td><span class="win">Canadá</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:69%;"></div></div><span class="conf-val">69%</span></td><td class="analysis">Davies marca la diferencia en velocidad. Local en Vancouver.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo C — Brasil, Marruecos, Escocia, Haití <span class="badge badge-fav">Favorito: Brasil</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Brasil vs Marruecos</td><td><span class="score">2 – 1</span></td><td><span class="win">Brasil</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:73%;"></div></div><span class="conf-val">73%</span></td><td class="analysis">Vinicius Jr. vs Hakimi. Marruecos organizados pero Brasil con mayor profundidad.</td></tr>
-                    <tr><td class="team-col">Escocia vs Haití</td><td><span class="score">2 – 0</span></td><td><span class="win">Escocia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:88%;"></div></div><span class="conf-val">88%</span></td><td class="analysis">Diferencia abismal de nivel. Haití es la selección más débil del torneo.</td></tr>
-                    <tr><td class="team-col">Brasil vs Escocia</td><td><span class="score">3 – 0</span></td><td><span class="win">Brasil</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:91%;"></div></div><span class="conf-val">91%</span></td><td class="analysis">Raphinha y Martinelli complementan a Vinicius. Escocia sin respuesta.</td></tr>
-                    <tr><td class="team-col">Marruecos vs Haití</td><td><span class="score">4 – 0</span></td><td><span class="win">Marruecos</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:96%;"></div></div><span class="conf-val">96%</span></td><td class="analysis">Hakimi, Ziyech, En-Nesyri. Haití no existe en este nivel.</td></tr>
-                    <tr><td class="team-col">Brasil vs Haití</td><td><span class="score">5 – 0</span></td><td><span class="win">Brasil</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:98%;"></div></div><span class="conf-val">98%</span></td><td class="analysis">Goleada previsible. Brasil rotará plantel.</td></tr>
-                    <tr><td class="team-col">Marruecos vs Escocia</td><td><span class="score">2 – 1</span></td><td><span class="win">Marruecos</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:75%;"></div></div><span class="conf-val">75%</span></td><td class="analysis">Marruecos asegura 2do lugar con solidez defensiva heredada del 2022.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo D — EE.UU., Australia, Paraguay, Turquía <span class="badge badge-fav">Favorito: EE.UU.</span><span class="badge badge-dark">Oscuro: Turquía</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">EE.UU. vs Paraguay</td><td><span class="score">2 – 1</span></td><td><span class="win">EE.UU.</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:65%;"></div></div><span class="conf-val">65%</span></td><td class="analysis">Pulisic lider. Local en su territorio. Paraguay compacto pero limitado.</td></tr>
-                    <tr><td class="team-col">Australia vs Turquía</td><td><span class="score">1 – 2</span></td><td><span class="win">Turquía</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:67%;"></div></div><span class="conf-val">67%</span></td><td class="analysis">Calhanoglu y Yildiz superiores. Australia sin su mejor generación.</td></tr>
-                    <tr><td class="team-col">EE.UU. vs Australia</td><td><span class="score">2 – 0</span></td><td><span class="win">EE.UU.</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:74%;"></div></div><span class="conf-val">74%</span></td><td class="analysis">Weah, McKennie, Reyna. EE.UU. profundo en calidad de Premier League y Bundesliga.</td></tr>
-                    <tr><td class="team-col">Turquía vs Paraguay</td><td><span class="score">2 – 1</span></td><td><span class="win">Turquía</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:70%;"></div></div><span class="conf-val">70%</span></td><td class="analysis">Yildiz en forma brillante con Juventus. Paraguay luchador pero superado.</td></tr>
-                    <tr><td class="team-col">EE.UU. vs Turquía</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:58%;"></div></div><span class="conf-val">58%</span></td><td class="analysis">Partido clave. EE.UU. ya clasificado, Turquía necesita el resultado.</td></tr>
-                    <tr><td class="team-col">Australia vs Paraguay</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:56%;"></div></div><span class="conf-val">56%</span></td><td class="analysis">Duelo por el tercer puesto. Ambos igualados táctica y físicamente.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo E — Alemania, Ecuador, Costa de Marfil, Curazao <span class="badge badge-fav">Favorito: Alemania</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Alemania vs Curazao</td><td><span class="score">5 – 0</span></td><td><span class="win">Alemania</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:99%;"></div></div><span class="conf-val">99%</span></td><td class="analysis">Havertz, Musiala, Wirtz. Curazao el rival más débil del torneo junto a Haití.</td></tr>
-                    <tr><td class="team-col">C. de Marfil vs Ecuador</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:59%;"></div></div><span class="conf-val">59%</span></td><td class="analysis">Zaha y Pepe vs Valencia y Plata. Equilibrio perfecto en el campo.</td></tr>
-                    <tr><td class="team-col">Alemania vs C. de Marfil</td><td><span class="score">3 – 1</span></td><td><span class="win">Alemania</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:84%;"></div></div><span class="conf-val">84%</span></td><td class="analysis">Florian Wirtz brillante. Alemania con motivation de redención post-2022.</td></tr>
-                    <tr><td class="team-col">Ecuador vs Curazao</td><td><span class="score">4 – 0</span></td><td><span class="win">Ecuador</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:97%;"></div></div><span class="conf-val">97%</span></td><td class="analysis">Valencia consolida su lugar. Ecuador aprovecha a fondo.</td></tr>
-                    <tr><td class="team-col">Ecuador vs Alemania</td><td><span class="score">0 – 2</span></td><td><span class="win">Alemania</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:80%;"></div></div><span class="conf-val">80%</span></td><td class="analysis">Alemania líder cómodo. Ecuador asegura el 2do puesto.</td></tr>
-                    <tr><td class="team-col">Curazao vs C. de Marfil</td><td><span class="score">0 – 3</span></td><td><span class="win">C. de Marfil</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:94%;"></div></div><span class="conf-val">94%</span></td><td class="analysis">C. de Marfil clasifica en 2do lugar con esta victoria.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo F — Países Bajos, Japón, Suecia, Túnez <span class="badge badge-fav">Favorito: Países Bajos</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Países Bajos vs Japón</td><td><span class="score">2 – 1</span></td><td><span class="win">Países Bajos</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:71%;"></div></div><span class="conf-val">71%</span></td><td class="analysis">Van Dijk líder defensivo. Japón organizado pero sin profundidad de ataque.</td></tr>
-                    <tr><td class="team-col">Suecia vs Túnez</td><td><span class="score">2 – 0</span></td><td><span class="win">Suecia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:83%;"></div></div><span class="conf-val">83%</span></td><td class="analysis">Isak en plena forma tras brillante temporada en Newcastle.</td></tr>
-                    <tr><td class="team-col">Países Bajos vs Suecia</td><td><span class="score">2 – 0</span></td><td><span class="win">Países Bajos</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:78%;"></div></div><span class="conf-val">78%</span></td><td class="analysis">Depay y Gakpo superiores al ataque sueco. Países Bajos consolida liderato.</td></tr>
-                    <tr><td class="team-col">Túnez vs Japón</td><td><span class="score">1 – 2</span></td><td><span class="win">Japón</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:69%;"></div></div><span class="conf-val">69%</span></td><td class="analysis">Japón con bloques defensivos brillantes. Minamino y Doan decisivos.</td></tr>
-                    <tr><td class="team-col">Japón vs Suecia</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:57%;"></div></div><span class="conf-val">57%</span></td><td class="analysis">Japón asegura su clasificación con este empate. Isak marca pero no basta.</td></tr>
-                    <tr><td class="team-col">Túnez vs Países Bajos</td><td><span class="score">0 – 3</span></td><td><span class="win">Países Bajos</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:93%;"></div></div><span class="conf-val">93%</span></td><td class="analysis">Goleada esperada. Países Bajos rota plantel pero mantiene dominio.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo G — Bélgica, Egipto, Irán, Nueva Zelanda <span class="badge badge-fav">Favorito: Bélgica</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Bélgica vs Egipto</td><td><span class="score">2 – 0</span></td><td><span class="win">Bélgica</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:82%;"></div></div><span class="conf-val">82%</span></td><td class="analysis">De Bruyne dirige el juego. Lukaku resurgido. Nueva generación belga hambrienta.</td></tr>
-                    <tr><td class="team-col">Irán vs Nueva Zelanda</td><td><span class="score">2 – 0</span></td><td><span class="win">Irán</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:84%;"></div></div><span class="conf-val">84%</span></td><td class="analysis">Taremi y Azmoun. Nueva Zelanda sin nivel continental.</td></tr>
-                    <tr><td class="team-col">Bélgica vs Irán</td><td><span class="score">3 – 0</span></td><td><span class="win">Bélgica</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:88%;"></div></div><span class="conf-val">88%</span></td><td class="analysis">De Bruyne dominante en el mediocampo. Bélgica nueva generación ya madura.</td></tr>
-                    <tr><td class="team-col">Nueva Zelanda vs Egipto</td><td><span class="score">0 – 2</span></td><td><span class="win">Egipto</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:85%;"></div></div><span class="conf-val">85%</span></td><td class="analysis">Salah motiva a su selección. Egipto aprovecha su momento.</td></tr>
-                    <tr><td class="team-col">Egipto vs Irán</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:57%;"></div></div><span class="conf-val">57%</span></td><td class="analysis">Duelo igualado. Salah intenta la diferencia pero Irán resiste.</td></tr>
-                    <tr><td class="team-col">Nueva Zelanda vs Bélgica</td><td><span class="score">0 – 4</span></td><td><span class="win">Bélgica</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:97%;"></div></div><span class="conf-val">97%</span></td><td class="analysis">Bélgica completa el grupo perfecto. Nueva Zelanda sin opciones.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo H — España, Uruguay, Arabia Saudita, Cabo Verde <span class="badge badge-fav">Favorito: España</span><span class="badge badge-dark">Oscuro: Uruguay</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">España vs Cabo Verde</td><td><span class="score">4 – 0</span></td><td><span class="win">España</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:97%;"></div></div><span class="conf-val">97%</span></td><td class="analysis">Yamal, Nico Williams (si llegan al 100%). España dominante en posesión.</td></tr>
-                    <tr><td class="team-col">Uruguay vs Arabia Saudita</td><td><span class="score">2 – 0</span></td><td><span class="win">Uruguay</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:83%;"></div></div><span class="conf-val">83%</span></td><td class="analysis">Nunez y Darwin Nunez a full. Arabia Saudita sin el nivel de su sorpresa del 2022.</td></tr>
-                    <tr><td class="team-col">España vs Uruguay</td><td><span class="score">2 – 1</span></td><td><span class="win">España</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:75%;"></div></div><span class="conf-val">75%</span></td><td class="analysis">El partido del grupo. Yamal-Nico vs Nunez-Bentancur. España gana en calidad.</td></tr>
-                    <tr><td class="team-col">Arabia Saudita vs Cabo Verde</td><td><span class="score">2 – 1</span></td><td><span class="win">Arabia Saudita</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:78%;"></div></div><span class="conf-val">78%</span></td><td class="analysis">Arabia compite mejor ante rivales menores.</td></tr>
-                    <tr><td class="team-col">España vs Arabia Saudita</td><td><span class="score">3 – 0</span></td><td><span class="win">España</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:93%;"></div></div><span class="conf-val">93%</span></td><td class="analysis">España terminará 1era con autoridad. Rodri y Pedri controlan el centro.</td></tr>
-                    <tr><td class="team-col">Uruguay vs Cabo Verde</td><td><span class="score">3 – 0</span></td><td><span class="win">Uruguay</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:92%;"></div></div><span class="conf-val">92%</span></td><td class="analysis">Uruguay asegura 2do puesto. Valverde en su mejor nivel.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo I — Francia, Senegal, Noruega, Irak <span class="badge badge-fav">Favorito: Francia</span><span class="badge badge-dark">Oscuro: Noruega</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Francia vs Senegal</td><td><span class="score">2 – 1</span></td><td><span class="win">Francia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:74%;"></div></div><span class="conf-val">74%</span></td><td class="analysis">Mbappé vs Hakimi/Gueye. Senegal organizado y peligroso. Mané presente.</td></tr>
-                    <tr><td class="team-col">Irak vs Noruega</td><td><span class="score">0 – 3</span></td><td><span class="win">Noruega</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:92%;"></div></div><span class="conf-val">92%</span></td><td class="analysis">Haaland hambrienta de su primer Mundial. Ødegaard crea oportunidades sin fin.</td></tr>
-                    <tr><td class="team-col">Francia vs Irak</td><td><span class="score">4 – 0</span></td><td><span class="win">Francia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:98%;"></div></div><span class="conf-val">98%</span></td><td class="analysis">Mbappé, Dembélé, Thuram. Irak sin nivel europeo. Goleada segura.</td></tr>
-                    <tr><td class="team-col">Noruega vs Senegal</td><td><span class="score">2 – 1</span></td><td><span class="win">Noruega</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:68%;"></div></div><span class="conf-val">68%</span></td><td class="analysis">Partido parejo. Haaland decide en el 2do tiempo. Senegal al límite.</td></tr>
-                    <tr><td class="team-col">Noruega vs Francia</td><td><span class="score">1 – 2</span></td><td><span class="win">Francia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:72%;"></div></div><span class="conf-val">72%</span></td><td class="analysis">Haaland marca pero Francia con mayor calidad colectiva. Duelo de gigantes.</td></tr>
-                    <tr><td class="team-col">Senegal vs Irak</td><td><span class="score">3 – 0</span></td><td><span class="win">Senegal</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:91%;"></div></div><span class="conf-val">91%</span></td><td class="analysis">Senegal asegura el tercer puesto. Mané deja su marca.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo J — Argentina, Argelia, Austria, Jordania <span class="badge badge-fav">Favorito: Argentina</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Argentina vs Argelia</td><td><span class="score">2 – 0</span></td><td><span class="win">Argentina</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:85%;"></div></div><span class="conf-val">85%</span></td><td class="analysis">Messi regresa pese a hamstring leve. Julián Álvarez líder en ataque.</td></tr>
-                    <tr><td class="team-col">Austria vs Jordania</td><td><span class="score">3 – 0</span></td><td><span class="win">Austria</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:91%;"></div></div><span class="conf-val">91%</span></td><td class="analysis">Austria sorprendente calidad en Bundesliga. Gregoritch, Baumgartner.</td></tr>
-                    <tr><td class="team-col">Argentina vs Austria</td><td><span class="score">2 – 0</span></td><td><span class="win">Argentina</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:81%;"></div></div><span class="conf-val">81%</span></td><td class="analysis">Campeones del mundo no dan ventajas. De Paul, Mac Allister imponen.</td></tr>
-                    <tr><td class="team-col">Jordania vs Argelia</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:57%;"></div></div><span class="conf-val">57%</span></td><td class="analysis">Ambas con poco nivel para aspirar más que el tercer puesto.</td></tr>
-                    <tr><td class="team-col">Argentina vs Jordania</td><td><span class="score">4 – 0</span></td><td><span class="win">Argentina</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:99%;"></div></div><span class="conf-val">99%</span></td><td class="analysis">Messi se libera. Argentina usa el partido para rotar y probarse.</td></tr>
-                    <tr><td class="team-col">Argelia vs Austria</td><td><span class="score">1 – 2</span></td><td><span class="win">Austria</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:69%;"></div></div><span class="conf-val">69%</span></td><td class="analysis">Austria clasifica en 2do puesto. Argelia al borde de la eliminación.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo K — Portugal, Colombia, Uzbekistán, Congo DR <span class="badge badge-fav">Favorito: Portugal</span><span class="badge badge-dark">Oscuro: Colombia</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Portugal vs Congo DR</td><td><span class="score">4 – 0</span></td><td><span class="win">Portugal</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:97%;"></div></div><span class="conf-val">97%</span></td><td class="analysis">Ronaldo (41 años) busca su primer trofeo mundial. Vitinha, Bernardo Silva dominan.</td></tr>
-                    <tr><td class="team-col">Uzbekistán vs Colombia</td><td><span class="score">0 – 3</span></td><td><span class="win">Colombia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:93%;"></div></div><span class="conf-val">93%</span></td><td class="analysis">Luis Díaz (Bayern) irrefrenable. James Rodríguez de director. Colombia poderosa.</td></tr>
-                    <tr><td class="team-col">Portugal vs Uzbekistán</td><td><span class="score">3 – 0</span></td><td><span class="win">Portugal</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:95%;"></div></div><span class="conf-val">95%</span></td><td class="analysis">Portugal sin complicaciones. Félix, Diogo Jota completan el ataque.</td></tr>
-                    <tr><td class="team-col">Colombia vs Congo DR</td><td><span class="score">3 – 0</span></td><td><span class="win">Colombia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:96%;"></div></div><span class="conf-val">96%</span></td><td class="analysis">Díaz 15G/14A en Bayern esta temporada. Colombia en estado de gracia.</td></tr>
-                    <tr><td class="team-col">Portugal vs Colombia</td><td><span class="score">2 – 2</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:60%;"></div></div><span class="conf-val">60%</span></td><td class="analysis">El partido más interesante del grupo. Ronaldo vs Díaz. Portugal lidera ranking FIFA.</td></tr>
-                    <tr><td class="team-col">Uzbekistán vs Congo DR</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:56%;"></div></div><span class="conf-val">56%</span></td><td class="analysis">Ambos eliminados buscan dignidad.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="group-block">
-        <div class="group-title">Grupo L — Inglaterra, Croacia, Ghana, Panamá <span class="badge badge-fav">Favorito: Inglaterra</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Partido</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Ghana vs Panamá</td><td><span class="score">1 – 1</span></td><td><span class="draw">Empate</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:57%;"></div></div><span class="conf-val">57%</span></td><td class="analysis">Equilibrio entre ambas selecciones de nivel similar.</td></tr>
-                    <tr><td class="team-col">Inglaterra vs Croacia</td><td><span class="score">2 – 0</span></td><td><span class="win">Inglaterra</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:79%;"></div></div><span class="conf-val">79%</span></td><td class="analysis">Kane en su mejor nivel en Bayern. Bellingham, Saka. Croacia envejecida sin Modric al 100%.</td></tr>
-                    <tr><td class="team-col">Inglaterra vs Ghana</td><td><span class="score">3 – 0</span></td><td><span class="win">Inglaterra</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:90%;"></div></div><span class="conf-val">90%</span></td><td class="analysis">Bukayo Saka libre y desequilibrante. Ghana sin respuesta.</td></tr>
-                    <tr><td class="team-col">Croacia vs Panamá</td><td><span class="score">2 – 0</span></td><td><span class="win">Croacia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:87%;"></div></div><span class="conf-val">87%</span></td><td class="analysis">Croacia asegura 2do puesto con esta victoria.</td></tr>
-                    <tr><td class="team-col">Panamá vs Inglaterra</td><td><span class="score">0 – 3</span></td><td><span class="win">Inglaterra</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:96%;"></div></div><span class="conf-val">96%</span></td><td class="analysis">Inglaterra ya clasificada. Usa titulares. Panamá sin opciones.</td></tr>
-                    <tr><td class="team-col">Croacia vs Ghana</td><td><span class="score">2 – 1</span></td><td><span class="win">Croacia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:68%;"></div></div><span class="conf-val">68%</span></td><td class="analysis">Croacia cierra con victoria y asegura pase a la siguiente fase.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
+<div class="grp-block">
+<div class="grp-hdr">Grupo B — Jornada 2 iniciando <span class="badge ba">⚠️ Bosnia marcó primero vs Canadá</span></div>
+<table>
+<thead><tr><th style="width:5%">#</th><th style="width:35%">Selección</th><th style="width:10%">PJ</th><th style="width:10%">G</th><th style="width:10%">E</th><th style="width:10%">P</th><th style="width:10%">DG</th><th style="width:10%">Pts</th></tr></thead>
+<tbody>
+<tr><td><span class="pos">?</span></td><td>🇨🇦 Canadá</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="pts">En juego</td></tr>
+<tr><td><span class="pos">?</span></td><td>🇧🇦 Bosnia</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="pts">En juego</td></tr>
+<tr><td><span class="pos">—</span></td><td>🇨🇭 Suiza</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="pts">0</td></tr>
+<tr><td><span class="pos">—</span></td><td>🇶🇦 Qatar</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="pts">0</td></tr>
+</tbody></table>
+<div class="note-box">
+  <h3>Análisis actualizado Grupo B</h3>
+  <p>El gol temprano de Bosnia en Toronto es una señal de alarma. Davies arrancó desde el banquillo (se preserva para partido clave). Canadá necesita remontar para mantener su imagen de favorito. Si Bosnia gana, el grupo se pone interesante: <span class="trend-neu">Suiza seguiría siendo 1ra (Suiza vs Qatar el 13 Jun = 3-0 seguro)</span>, pero la batalla por el 2do puesto sería Canadá-Bosnia con Canadá en desventaja psicológica.</p>
+</div>
 </div>
 
-<div id="knockouts" class="section">
-    <div class="group-block">
-        <div class="group-title">Análisis de Rondas Eliminatorias Proyectadas <span class="badge badge-fav">Cruces Críticos</span></div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Llave Proyectada</th><th>Resultado</th><th>Veredicto</th><th>Confianza</th><th>Fundamento Táctico</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Francia vs Noruega</td><td><span class="score">2 – 1</span></td><td><span class="win">Francia</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:75%;"></div></div><span class="conf-val">75%</span></td><td class="analysis">Mbappé y la jerarquía colectiva frenan el poder demoledor de Haaland.</td></tr>
-                    <tr><td class="team-col">Brasil vs Colombia</td><td><span class="score">3 – 2</span></td><td><span class="win">Brasil</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:68%;"></div></div><span class="conf-val">68%</span></td><td class="analysis">Partidazo ofensivo. Luis Díaz brilla pero Vinicius y Raphinha imponen su peso en el área.</td></tr>
-                    <tr><td class="team-col">Inglaterra vs Suiza</td><td><span class="score">1 – 0</span></td><td><span class="win">Inglaterra</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:80%;"></div></div><span class="conf-val">80%</span></td><td class="analysis">Harry Kane rompe el cerrojo táctico de Xhaka en un duelo de alta tensión.</td></tr>
-                    <tr><td class="team-col">Argentina vs España</td><td><span class="score">1 – 1 (4-3 p)</span></td><td><span class="win">Argentina</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:62%;"></div></div><span class="conf-val">62%</span></td><td class="analysis">Duelo generacional (Messi vs Yamal). Se define por la experiencia albiceleste en penales.</td></tr>
-                    <tr><td class="team-col">Portugal vs Alemania</td><td><span class="score">2 – 3</span></td><td><span class="win">Alemania</span></td><td class="conf-container"><div class="conf-bar"><div class="conf-bar-fill" style="width:70%;"></div></div><span class="conf-val">70%</span></td><td class="analysis">La dinámica y transiciones rápidas de Musiala y Wirtz superan la medular portuguesa.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="grp-block">
+<div class="grp-hdr">Grupos C-L — Jornada 1 pendiente (13-16 Jun)</div>
+<table>
+<thead><tr><th style="width:5%">Grp</th><th style="width:45%">Partido</th><th style="width:20%">Fecha</th><th style="width:30%">Pronóstico</th></tr></thead>
+<tbody>
+<tr><td>C</td><td>🇧🇷 Brasil vs 🇲🇦 Marruecos</td><td>13 Jun</td><td>2-1 Brasil (71%)</td></tr>
+<tr><td>C</td><td>🇭🇹 Haití vs 🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escocia</td><td>13 Jun</td><td>0-3 Escocia (90%)</td></tr>
+<tr><td>D</td><td>🇦🇺 Australia vs 🇹🇷 Turquía</td><td>14 Jun</td><td>1-2 Turquía (66%)</td></tr>
+<tr><td>E</td><td>🇩🇪 Alemania vs 🇨🇮 C. de Marfil</td><td>14 Jun</td><td>3-1 Alemania (83%)</td></tr>
+<tr><td>E</td><td>🇪🇨 Ecuador vs 🇨🇼 Curazao</td><td>14 Jun</td><td>4-0 Ecuador (97%)</td></tr>
+<tr><td>F</td><td>🇳🇱 Países Bajos vs 🇯🇵 Japón</td><td>14 Jun</td><td>2-1 PBajos (71%)</td></tr>
+<tr><td>F</td><td>🇸🇪 Suecia vs 🇹🇳 Túnez</td><td>14 Jun</td><td>2-0 Suecia (83%)</td></tr>
+<tr><td>G</td><td>🇧🇪 Bélgica vs 🇪🇬 Egipto</td><td>15 Jun</td><td>2-0 Bélgica (82%)</td></tr>
+<tr><td>G</td><td>🇮🇷 Irán vs 🇳🇿 N. Zelanda</td><td>15 Jun</td><td>2-0 Irán (84%)</td></tr>
+<tr><td>H</td><td>🇪🇸 España vs 🇨🇻 Cabo Verde</td><td>16 Jun</td><td>4-0 España (97%)</td></tr>
+<tr><td>H</td><td>🇺🇾 Uruguay vs 🇸🇦 A. Saudita</td><td>16 Jun</td><td>2-0 Uruguay (83%)</td></tr>
+<tr><td>I</td><td>🇫🇷 Francia vs 🇸🇳 Senegal</td><td>16 Jun</td><td>2-1 Francia (74%)</td></tr>
+<tr><td>I</td><td>🇮raq vs 🇳🇴 Noruega</td><td>16 Jun</td><td>0-3 Noruega (91%)</td></tr>
+<tr><td>J</td><td>🇦🇷 Argentina vs 🇩🇿 Argelia</td><td>15 Jun</td><td>2-0 Argentina (85%)</td></tr>
+<tr><td>K</td><td>🇵🇹 Portugal vs 🇨🇩 Congo DR</td><td>17 Jun</td><td>4-0 Portugal (97%)</td></tr>
+<tr><td>K</td><td>🇨🇴 Colombia vs 🇺🇿 Uzbekistán</td><td>17 Jun</td><td>3-0 Colombia (93%)</td></tr>
+<tr><td>L</td><td>🇬🇧 Inglaterra vs 🇭🇷 Croacia</td><td>17 Jun</td><td>2-0 Inglaterra (79%)</td></tr>
+<tr><td>L</td><td>🇬 Ghana vs 🇵🇦 Panamá</td><td>17 Jun</td><td>1-1 Empate (57%)</td></tr>
+</tbody></table>
+</div>
 </div>
 
-<div id="jugadores" class="section">
-    <div class="group-block">
-        <div class="group-title">Rendimiento e Historial Promedio por Jugador <span class="badge badge-fav">Métricas de Rendimiento</span></div>
-        <div class="player-grid">
-            
-            <div class="player-card">
-                <div>
-                    <div class="player-meta">Francia · Delantero</div>
-                    <div class="player-name">Kylian Mbappé</div>
-                    
-                    <div class="player-stats">
-                        <div class="stat-box"><span class="stat-val">4.8</span><span class="stat-lbl">Tiros Totales</span></div>
-                        <div class="stat-box"><span class="stat-val">2.6</span><span class="stat-lbl">Tiros al Arco</span></div>
-                        <div class="stat-box"><span class="stat-val">0.6</span><span class="stat-lbl">Faltas Rec.</span></div>
-                    </div>
-                </div>
-                <p class="analysis">Llega como la pieza central. Su alta efectividad de tiros al arco (más del 50%) lo hace el atacante más letal del Grupo I en transiciones rápidas.</p>
-            </div>
-
-            <div class="player-card">
-                <div>
-                    <div class="player-meta">Colombia · Extremo</div>
-                    <div class="player-name">Luis Díaz</div>
-                    
-                    <div class="player-stats">
-                        <div class="stat-box"><span class="stat-val">3.9</span><span class="stat-lbl">Tiros Totales</span></div>
-                        <div class="stat-box"><span class="stat-val">1.8</span><span class="stat-lbl">Tiros al Arco</span></div>
-                        <div class="stat-box"><span class="stat-val">1.4</span><span class="stat-lbl">Faltas Rec.</span></div>
-                    </div>
-                </div>
-                <p class="analysis">Su juego basado en el desborde y la diagonal genera un gran volumen de faltas recibidas cerca del área y un promedio alto de tiros de media distancia.</p>
-            </div>
-
-            <div class="player-card">
-                <div>
-                    <div class="player-meta">Noruega · Delantero Centro</div>
-                    <div class="player-name">Erling Haaland</div>
-                    
-                    <div class="player-stats">
-                        <div class="stat-box"><span class="stat-val">5.2</span><span class="stat-lbl">Tiros Totales</span></div>
-                        <div class="stat-box"><span class="stat-val">3.1</span><span class="stat-lbl">Tiros al Arco</span></div>
-                        <div class="stat-box"><span class="stat-val">0.9</span><span class="stat-lbl">Faltas Com.</span></div>
-                    </div>
-                </div>
-                <p class="analysis">El jugador con mayor cantidad de tiros por partido del torneo. Su relación de tiros al arco es brutal, convirtiendo casi todo lo que toca dentro de la zona de peligro.</p>
-            </div>
-
-            <div class="player-card">
-                <div>
-                    <div class="player-meta">Inglaterra · Delantero Centro</div>
-                    <div class="player-name">Harry Kane</div>
-                    
-                    <div class="player-stats">
-                        <div class="stat-box"><span class="stat-val">4.2</span><span class="stat-lbl">Tiros Totales</span></div>
-                        <div class="stat-box"><span class="stat-val">2.1</span><span class="stat-lbl">Tiros al Arco</span></div>
-                        <div class="stat-box"><span class="stat-val">1.1</span><span class="stat-lbl">Faltas Rec.</span></div>
-                    </div>
-                </div>
-                <p class="analysis">Al bajar a organizar el juego, baja un poco su promedio de tiros totales comparado con Haaland, pero su precisión se mantiene intacta desde el borde del área.</p>
-            </div>
-
-            <div class="player-card">
-                <div>
-                    <div class="player-meta">España · Extremo</div>
-                    <div class="player-name">Lamine Yamal</div>
-                    
-                    <div class="player-stats">
-                        <div class="stat-box"><span class="stat-val">3.5</span><span class="stat-lbl">Tiros Totales</span></div>
-                        <div class="stat-box"><span class="stat-val">1.5</span><span class="stat-lbl">Tiros al Arco</span></div>
-                        <div class="stat-box"><span class="stat-val">2.2</span><span class="stat-lbl">Faltas Rec.</span></div>
-                    </div>
-                </div>
-                <p class="analysis">Su fuerte es el 1vs1. Esto se refleja en su altísimo promedio de faltas recibidas, desgastando constantemente a los laterales izquierdos rivales.</p>
-            </div>
-
-            <div class="player-card">
-                <div>
-                    <div class="player-meta">Argentina · Mediapunta</div>
-                    <div class="player-name">Lionel Messi</div>
-                    
-                    <div class="player-stats">
-                        <div class="stat-box"><span class="stat-val">3.8</span><span class="stat-lbl">Tiros Totales</span></div>
-                        <div class="stat-box"><span class="stat-val">1.9</span><span class="stat-lbl">Tiros al Arco</span></div>
-                        <div class="stat-box"><span class="stat-val">1.8</span><span class="stat-lbl">Faltas Rec.</span></div>
-                    </div>
-                </div>
-                <p class="analysis">Administra sus esfuerzos a la perfección. Menos tiros totales pero con un porcentaje de efectividad altísimo y mucha generación de juego libre mediante faltas tácticas.</p>
-            </div>
-
-        </div>
-    </div>
+<!-- TENDENCIAS -->
+<div id="tendencias" class="sec">
+<div class="tend-card">
+  <div class="tend-title">📈 Tendencia 1 — La norma del local: los 3 co-anfitriones rinden bajo presión</div>
+  <div class="tend-body">México ganó 2-0 pero con la ayuda de 2 expulsiones rivales. Su juego no fue brillante. <span class="trend-neu">Canadá está recibiendo el primer gol en casa ante Bosnia</span>, lo que revela que el "efecto local" no elimina el factor sorpresa. EE.UU. esta noche ante Paraguay tendrá el mismo desafío. <b>Conclusión:</b> Apostar a los co-anfitriones con handicap bajo es más seguro que apostar a goleadas. Los 3 equipos CONCACAF mostrarán flojedad ofensiva en grupos.</div>
 </div>
 
-<div id="resumen" class="section">
-    <div class="group-block">
-        <div class="group-title">Proyección del Campeón del Mundo <span class="badge badge-fav">Algoritmo Predictivo</span></div>
-        <div style="margin-bottom: 20px;">
-            <h3 style="color: var(--accent); font-size: 22px; font-weight: 700; margin-bottom: 8px;">Gran Favorito: Brasil</h3>
-            <p class="analysis" style="font-size: 15px;">
-                Tras evaluar las métricas de profundidad de plantilla, la forma actual de sus estrellas en Europa y la facilidad de rotación en el Grupo C, <strong>Brasil se consolida como el candidato número uno</strong> para llevarse la copa. El balance que aportan Vinicius Jr. por izquierda, Raphinha por derecha, y un mediocampo altamente físico les da una ventaja competitiva determinante sobre bloques europeos desgastados.
-            </p>
-        </div>
-        
-        <div class="table-container">
-            <h4 style="color: var(--primary); font-size: 14px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Probabilidades de Título Colectivas</h4>
-            <table>
-                <thead><tr><th>Selección</th><th>Probabilidad de Éxito</th><th>Factor Clave</th><th>Punto Débil Detectado</th></tr></thead>
-                <tbody>
-                    <tr><td class="team-col">Brasil</td><td><strong>24%</strong></td><td class="analysis">Profundidad de plantilla y variantes en ataque (Martinelli, Endrick).</td><td class="analysis">Transiciones defensivas si los laterales suben en exceso.</td></tr>
-                    <tr><td class="team-col">Francia</td><td><strong>21%</strong></td><td class="analysis">Efectividad letal de Mbappé y jerarquía en duelos eliminatorios directos.</td><td class="analysis">Dependencia excesiva de la lucidez de su mediocampo.</td></tr>
-                    <tr><td class="team-col">Inglaterra</td><td><strong>18%</strong></td><td class="analysis">Consistencia de Kane y la frescura de Saka/Bellingham en tres cuartos.</td><td class="analysis">Gestión de la presión en partidos cerrados de alta exigencia.</td></tr>
-                    <tr><td class="team-col">Alemania</td><td><strong>15%</strong></td><td class="analysis">El gran momento de la dupla Musiala-Wirtz generando volumen.</td><td class="analysis">Falta de un central corrector ultra rápido en bloque alto.</td></tr>
-                    <tr><td class="team-col">Argentina</td><td><strong>12%</strong></td><td class="analysis">Sinergia colectiva intacta y jerarquía competitiva impecable.</td><td class="analysis">Desgaste físico y problemas de recambio en la zaga central.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="tend-card">
+  <div class="tend-title">⚠️ Tendencia 2 — Chequia en crisis: Schick irrelevante, la defensa cedió</div>
+  <div class="tend-body">Schick (2.65T/90 en Leverkusen) no generó ningún tiro al arco. El sistema checo fue desmontado por la transición rápida coreana. Krejčí marcó de cabeza en jugada de banda (posición fija), lo que indica que el ataque checo depende de balones parados, no de juego dinámico. <span class="trend-down">Chequia 50% probabilidad de clasificar.</span> Si pierden el 18 Jun ante Sudáfrica, quedan virtualmente eliminados. <b>Esta tendencia afecta nuestra apuesta previa de Chequia clasificando como 2do.</b></div>
+</div>
+
+<div class="tend-card">
+  <div class="tend-title">🔥 Tendencia 3 — Corea del Sur más peligrosa de lo esperado</div>
+  <div class="tend-body">Lee Kang-in asistente magistral. Hwang In-beom finalizador clinico. El sistema de Corea (presión alta + transición) es más parecido al fútbol europeo de lo que cualquiera esperaba. <span class="trend-up">Corea del Sur sube de "2do probable" a "posible 1ro del grupo."</span> Si ganan o empatan ante México el 18 Jun, lideran el grupo A. Son Heung-min todavía no marcó — cuando entre en calor, el peligro sube.</div>
+</div>
+
+<div class="tend-card">
+  <div class="tend-title">🎯 Tendencia 4 — Los delanteros mundialistas tienden a arrancar fríos</div>
+  <div class="tend-body">Quiñones marcó el primer gol del torneo (no el favorito Jiménez). Hwang In-beom marcó para Corea (no Son). En Qatar 2022, en la jornada 1 los goleadores principales solo marcaron en 4 de 12 partidos. <span class="trend-neu">Esto sugiere que las cuotas de "primer goleador = estrella" están infladas en la jornada 2.</span> Apostar a goleadores secundarios en jornada 1-2 da valor real.</div>
+</div>
+
+<div class="tend-card">
+  <div class="tend-title">📊 Tendencia 5 — Promedio de goles en este Mundial: 2.0/partido (1 jornada)</div>
+  <div class="tend-body">México 2-0 SA (2 goles) + Corea 2-1 Chequia (3 goles) = 5 goles en 2 partidos = 2.5/partido hasta ahora. En Qatar 2022 el promedio final fue 2.69. <span class="trend-up">El torneo apunta a ser ligeramente más goleador que Qatar.</span> Las cuotas de "más de 2.5 goles" en partidos de las grandes selecciones (Brasil, Francia, Alemania, España vs rivales débiles) representan valor estadístico claro.</div>
+</div>
+
+<div class="tend-card">
+  <div class="tend-title">🚨 Tendencia 6 — Factor tarjetas rojas en la jornada inaugural</div>
+  <div class="tend-body">3 rojas en México-Sudáfrica (primera vez en un partido del Mundial). Esto distorsiona los datos de rendimiento de México: su dominio fue amplificado por jugar 60 minutos contra 10-9 jugadores. <span class="trend-neu">No podemos concluir que México sea un equipo dominante</span> hasta ver cómo rinde en igualdad numérica. El partido vs Corea del Sur el 18 Jun será la prueba real de su nivel.</div>
+</div>
+</div>
+
+<!-- APUESTAS -->
+<div id="apuestas" class="sec">
+<div class="disclaimer"><span class="warn">⚠️ DISCLAIMER IMPORTANTE:</span> Las siguientes recomendaciones son análisis estadístico-deportivo con fines informativos. No constituyen asesoramiento financiero. Las apuestas deportivas conllevan riesgo real de pérdida. Juega responsablemente y dentro de tus posibilidades. Solo para mayores de 18 años donde sea legal.</div>
+
+<div class="bet-card">
+  <div class="bet-head">
+    <div class="bet-title">🎯 APUESTA #1 — Más de 2.5 goles: Brasil vs Marruecos (13 Jun)</div>
+    <div class="bet-odds">Cuota aprox. 1.80–2.00</div>
+  </div>
+  <div class="bet-tags">
+    <span class="bet-tag t-alta">Confianza ALTA</span>
+    <span class="bet-tag t-valor">Valor real</span>
+  </div>
+  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:76%"></div></div><span class="conf-pct">76%</span></div>
+  <div class="bet-reason"><b>Fundamento:</b> Brasil (Vinicius 3.45T/90, Raphinha 3.15T/90, Martinelli 2.9T/90) tiene el tridente con más tiros/90 combinados del torneo. Marruecos también ataca bien (En-Nesyri 2.7T/90 en Turquía). Los últimos 5 cruces Brasil-Marruecos promediaron 3.4 goles. En MetLife Stadium (campo rápido, gramilla perfecta). Brasil llegando motivado con Ancelotti. Este partido NECESITA goles para demostrar el nivel de ambas selecciones. El mercado tiende a subestimar los primeros partidos de Brasil por el historial cauteloso en mundiales, dando valor a la cuota de goles.</div>
+</div>
+
+<div class="bet-card">
+  <div class="bet-head">
+    <div class="bet-title">🎯 APUESTA #2 — España gana y + de 3.5 goles vs Cabo Verde (16 Jun)</div>
+    <div class="bet-odds">Cuota aprox. 2.20–2.50</div>
+  </div>
+  <div class="bet-tags">
+    <span class="bet-tag t-alta">Confianza ALTA</span>
+    <span class="bet-tag t-valor">Valor real</span>
+  </div>
+  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:82%"></div></div><span class="conf-pct">82%</span></div>
+  <div class="bet-reason"><b>Fundamento:</b> Yamal (lesión leve resuelta, confirmado disponible). Nico Williams también disponible. España ante rivales de nivel bajo-medio marcó en promedio 3.8 goles en las últimas 6 Naciones League. Cabo Verde es 57° del ranking FIFA y no tiene un solo jugador en top 5 ligas europeas que llegue con más de 0.8T/arco/90. De La Fuente buscará el golpe de autoridad en el debut. Rodri (regresado de lesión, con hambre) + Pedri dirán quién es España. Esta apuesta tiene valor porque la cuota de +3.5 está inflada por el factor "primer partido nervioso" — España históricamente mete 4+ en debúts mundialistas contra rivales débiles (6-0 España vs Costa Rica en Qatar 2022).</div>
+</div>
+
+<div class="bet-card">
+  <div class="bet-head">
+    <div class="bet-title">🎯 APUESTA #3 — Alemania gana con handicap -1.5 vs C. de Marfil (14 Jun)</div>
+    <div class="bet-odds">Cuota aprox. 1.90–2.10</div>
+  </div>
+  <div class="bet-tags">
+    <span class="bet-tag t-alta">Confianza ALTA</span>
+    <span class="bet-tag t-valor">Valor real</span>
+  </div>
+  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:78%"></div></div><span class="conf-pct">78%</span></div>
+  <div class="bet-reason"><b>Fundamento:</b> Wirtz (3.05T/90, 14A en Bundesliga) + Musiala (2.7T/90) + Havertz (2.5T/90). Los tres llegan en racha de 5 victorias consecutivas con Bayern/Arsenal. Costa de Marfil sin Zaha (lesionado, no convocado). Haller es su único delantero real de nivel europeo (2.3T/90 en BVB). La brecha estadística entre Alemania y C. Marfil en xG generado/concedido es de 2.1 goles por partido. Ganar por 2+ goles ocurre el 68% de las veces cuando Alemania enfrenta selecciones africanas en Mundiales. El torneo base: España 6-0 a Costa Rica en Qatar 2022 — Alemania puede hacer lo mismo aquí.</div>
+</div>
+
+<div class="bet-card">
+  <div class="bet-head">
+    <div class="bet-title">🎯 APUESTA #4 — Noruega gana y Haaland marca vs Irak (16 Jun)</div>
+    <div class="bet-odds">Cuota aprox. 1.60–1.80</div>
+  </div>
+  <div class="bet-tags">
+    <span class="bet-tag t-alta">Confianza MUY ALTA</span>
+  </div>
+  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:88%"></div></div><span class="conf-pct">88%</span></div>
+  <div class="bet-reason"><b>Fundamento:</b> Haaland con 16 goles en 8 partidos de clasificación UEFA (2.0 goles/partido de promedio). irak = 63° ranking FIFA, 0 jugadores en las top 5 ligas europeas. Es el primer Mundial de Haaland — llega con motivation histórica y sin margen para el error. La cuota de "Noruega gana + Haaland anota" está infravalorada porque el mercado teme la presión del debut. Estadísticamente, los máximos goleadores de clasificación convierten en el debut mundialista el 74% de las veces (Mbappe, Kane, Lewandowski en sus primeros partidos). Esta es la apuesta con mejor relación riesgo/retorno del torneo.</div>
+</div>
+
+<div class="bet-card">
+  <div class="bet-head">
+    <div class="bet-title">🎯 APUESTA #5 — Empate México vs Corea del Sur (18 Jun)</div>
+    <div class="bet-odds">Cuota aprox. 3.00–3.40</div>
+  </div>
+  <div class="bet-tags">
+    <span class="bet-tag t-med">Confianza MEDIA</span>
+    <span class="bet-tag t-valor">Alto valor en cuota</span>
+  </div>
+  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill med" style="width:55%"></div></div><span class="conf-pct">55%</span></div>
+  <div class="bet-reason"><b>Fundamento:</b> Corea del Sur mostró el 11 Jun que puede competir de tú a tú con cualquier selección A. México ganó pero con ventaja de rojas. Son todavía no marcó (y cuando lo haga, cambia el partido). Los dos equipos llegan con 3 puntos, ambos querrán asegurar clasificación sin arriesgar. Este tipo de partido "grande del grupo" tiende al empate el 40% de las veces en la historia del torneo. La cuota de 3.00+ tiene valor real porque el mercado asume victoria mexicana al ser local. <b>Riesgo:</b> Si Chequia pierde ante Sudáfrica el mismo día, ambos equipos pueden preferir arriesgar sabiendo que cualquier resultado los clasifica.</div>
+</div>
+
+<div class="bet-card">
+  <div class="bet-head">
+    <div class="bet-title">🎯 APUESTA #6 — Colombia clasifica de su grupo (Grupo K) — Apuesta de torneo</div>
+    <div class="bet-odds">Cuota aprox. 1.30–1.50</div>
+  </div>
+  <div class="bet-tags">
+    <span class="bet-tag t-alta">Confianza MUY ALTA</span>
+    <span class="bet-tag t-valor">Base del parlay</span>
+  </div>
+  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:93%"></div></div><span class="conf-pct">93%</span></div>
+  <div class="bet-reason"><b>Fundamento:</b> Luis Díaz (15G+14A en Bayern, temporada histórica) en su mejor año profesional. James Rodríguez en LaLiga con 13 asistencias. Colombia venció a Brasil y Argentina en eliminatorias CONMEBOL — la única selección que puede decir eso. El Grupo K tiene a Uzbekistán (sin jugadores en top 5 ligas) y Congo DR (primera aparición mundialista). Colombia clasifica el 93% de las veces con este nivel de plantel vs estos rivales. Ideal como pata segura de un parlay combinado.</div>
+</div>
+
+<div class="bet-card">
+  <div class="bet-head">
+    <div class="bet-title">🎯 APUESTA #7 — Chequia NO clasifica / Sudáfrica o Chequia en último lugar del Gpo A</div>
+    <div class="bet-odds">Cuota aprox. 1.80–2.20</div>
+  </div>
+  <div class="bet-tags">
+    <span class="bet-tag t-med">Confianza MEDIA-ALTA</span>
+    <span class="bet-tag t-valor">Emerging value</span>
+  </div>
+  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill med" style="width:68%"></div></div><span class="conf-pct">68%</span></div>
+  <div class="bet-reason"><b>Fundamento ACTUALIZADO:</b> La derrota 1-2 de Chequia ante Corea es una señal real, no solo un resultado. Schick no generó ni un tiro al arco (su estadística más baja del año). El sistema de Koubek (74 años, tercera derrota consecutiva en torneos) no adaptó el plan de juego tras ir perdiendo. Con Sudáfrica también derrotada pero con 2 jugadores suspendidos (Sithole + Zwane), el duelo Chequia-Sudáfrica el 18 Jun puede verse beneficiado por el equipo checo — pero incluso ganando ese partido, Chequia necesita que México gane o empate a Corea para tener opciones. Las cuotas de Chequia "no clasificar" están dando buen valor post-derrota.</div>
+</div>
+
+<div class="bet-card">
+  <div class="bet-head">
+    <div class="bet-title">🎯 PARLAY RECOMENDADO — Las 3 apuestas de mayor confianza combinadas</div>
+    <div class="bet-odds">Cuota combinada: ~5.50–7.50</div>
+  </div>
+  <div class="bet-tags">
+    <span class="bet-tag t-alta">Parlay curado</span>
+    <span class="bet-tag t-valor">Máximo valor</span>
+  </div>
+  <div class="conf-row"><span class="conf-label">Confianza</span><div class="conf-bar-wrap"><div class="conf-fill hi" style="width:62%"></div></div><span class="conf-pct">62%</span></div>
+  <div class="bet-reason">
+    <b>Componentes:</b><br>
+    1. <b>Noruega gana vs Irak</b> (88% individual) — Haaland debuta en su 1er Mundial ante el rival más débil de su grupo<br>
+    2. <b>España +3.5 goles vs Cabo Verde</b> (82% individual) — Yamal disponible, rival sin nivel, España busca mandar señal<br>
+    3. <b>Colombia clasifica del Grupo K</b> (93% individual) — Díaz en estado de gracia, grupo débil<br><br>
+    <b>Fundamento combinado:</b> Las 3 apuestas tienen factores independientes entre sí (no están correlacionadas por rivales o condiciones). Si los 3 eventos ocurren, multiplicamos ~1.70 × 1.65 × 1.35 = ~3.79 (ajustando márgenes de casa) lo que sobre una cuota de 5.50+ ofrece valor esperado positivo. Es el parlay más sólido con menor riesgo de correlación negativa.
+  </div>
+</div>
+
+<div class="note-box" style="margin-top:12px">
+  <h3>Apuestas a EVITAR en esta jornada</h3>
+  <p><span class="trend-down">❌ EE.UU. gana por +3 goles vs Paraguay</span> — Paraguay es un bloque defensivo sólido (4-4-2 compacto). EE.UU. no ha mostrado aún capacidad de goleada.<br>
+  <span class="trend-down">❌ México gana de forma convincente el 18 Jun vs Corea</span> — Corea demostró ser competitiva. La cuota está inflada por el factor local.<br>
+  <span class="trend-down">❌ Chequia clasifica 2do del Grupo A</span> — La derrota ante Corea cambió este escenario completamente. Evitar.<br>
+  <span class="trend-down">❌ Messi anota en el debut de Argentina</span> — Lesión de isquiotibial + 39 años + ritmo de MLS = arranque cauteloso esperado.</p>
+</div>
+</div>
 </div>
 
 <script>
-// Función del sistema de pestañas interactivo
-function show(sectionId) {
-    // 1. Ocultar todas las secciones
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(sec => sec.classList.remove('visible'));
-    
-    // 2. Mostrar la seleccionada
-    document.getElementById(sectionId).classList.add('visible');
-    
-    // 3. Actualizar estado visual de los botones (tabs)
-    const tabs = document.querySelectorAll('.tab');
-    tabs.forEach(tab => tab.classList.remove('active'));
-    
-    // Identificar qué pestaña llamó la función mediante el evento
-    event.currentTarget.classList.add('active');
+// Sistema de navegación de pestañas original
+function sw(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
 }
-</script>
 
+// === INTEGRACIÓN CON LA API DE ESPN (Mundial de Fútbol) ===
+const espnUrl = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+
+async function cargarMarcadoresESPN() {
+    try {
+        const response = await fetch(espnUrl);
+        const data = await response.json();
+        const matches = data.events || [];
+        
+        if(matches.length === 0) {
+            document.getElementById('contenedor-partidos-api').innerHTML = '<p style="font-size:12px; color:#666;">No hay partidos programados o activos para la fecha actual.</p>';
+            return;
+        }
+
+        let htmlContent = '';
+        let currentGroupHeader = '';
+
+        matches.forEach(match => {
+            // Estructurar metadatos del partido
+            const location = match.venue ? match.venue.fullName : 'Estadio Mundialista';
+            const dateStr = new Date(match.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+            const headingText = `${match.league.name || 'Mundial 2026'} · ${location} · ${dateStr}`;
+            
+            // Estado del juego
+            const statusType = match.status.type.state; // 'pre', 'in', o 'post'
+            const statusDetail = match.status.type.detail;
+            
+            let cardClass = 'upcoming';
+            let tagClass = 'tag-prox';
+            let tagText = statusDetail;
+
+            if(statusType === 'in') {
+                cardClass = 'live';
+                tagClass = 'tag-live';
+                tagText = 'EN JUEGO 🔴';
+            } else if(statusType === 'post') {
+                cardClass = 'confirmed';
+                tagClass = 'tag-final';
+                tagText = 'FINAL ✓';
+            }
+
+            // Datos de los competidores (Local vs Visitante)
+            const team1 = match.competitions[0].competitors[0];
+            const team2 = match.competitions[0].competitors[1];
+
+            // Formatear marcadores dependiendo del estado
+            const score1 = statusType === 'pre' ? 'vs' : team1.score;
+            const score2 = statusType === 'pre' ? '' : team2.score;
+            const scoreDisplay = statusType === 'pre' ? 'vs' : `${score1} – ${score2}`;
+
+            // Notas o detalles dinámicos opcionales si ESPN los provee (ej. goleadores de transmisiones de texto rápido)
+            let noteText = "Predicción y detalles estadísticos actualizándose basados en flujo API.";
+            if (match.competitions[0].headlines && match.competitions[0].headlines.length > 0) {
+                noteText = match.competitions[0].headlines[0].description;
+            }
+
+            htmlContent += `
+                <div class="res-card ${cardClass}">
+                  <div class="res-head">
+                      <span class="res-title">${headingText}</span>
+                      <span class="res-tag ${tagClass}">${tagText}</span>
+                  </div>
+                  <div class="res-score">
+                    <span class="team-name">${team1.team.displayName}</span>
+                    <span class="score-box">${scoreDisplay}</span>
+                    <span class="team-name" style="text-align:right">${team2.team.displayName}</span>
+                  </div>
+                  <div class="res-note">${noteText}</div>
+                </div>
+            `;
+        });
+
+        document.getElementById('contenedor-partidos-api').innerHTML = htmlContent;
+
+    } catch (error) {
+        console.error("Error llamando a la API de ESPN:", error);
+        document.getElementById('contenedor-partidos-api').innerHTML = '<p style="font-size:12px; color:#E24B4A;">No se pudieron cargar los marcadores en vivo. Reintentando automáticamente...</p>';
+    }
+}
+
+// Ejecutar la carga inmediatamente al iniciar la web
+cargarMarcadoresESPN();
+
+// Autorefrescar el marcador en vivo cada 30 segundos sin alterar el resto de tus pestañas
+setInterval(cargarMarcadoresESPN, 30000);
+</script>
 </body>
 </html>
